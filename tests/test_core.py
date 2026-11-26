@@ -13,7 +13,7 @@ from pathlib import Path
 
 from lemma_zero.anticheat import verify_candidate
 from lemma_zero.ledger import BudgetExceededError, CallUsage, ExperimentLedger, TaskRecord, summarize_ledger
-from lemma_zero.slicer import show_symbol, slice_for_target
+from lemma_zero.slicer import show_symbol, show_symbols, slice_for_target
 from lemma_zero.verus_runner import classify_error, find_verus_binary, parse_verus_errors, run_verus
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -75,7 +75,9 @@ pub proof fn lemma_target""",
             ("ASSUME_CALL", SAMPLE_ORIG.replace("{\n}", "{\n    assume(s[0] <= s[k]);\n}")),
             ("ADMIT_CALL", SAMPLE_ORIG.replace("{\n}", "{\n    admit();\n}")),
             ("EXTERNAL_BODY_ATTR", SAMPLE_ORIG.replace("pub proof fn lemma_target", "#[verifier::external_body]\npub proof fn lemma_target")),
+            ("EXTERNAL_BODY_ATTR", SAMPLE_ORIG.replace("pub proof fn lemma_target", "#[verifier(external_body)]\npub proof fn lemma_target")),
             ("EXTERNAL_ATTR", SAMPLE_ORIG.replace("pub proof fn lemma_target", "#[verifier::external]\npub proof fn lemma_target")),
+            ("EXTERNAL_ATTR", SAMPLE_ORIG.replace("pub proof fn lemma_target", "#[verifier(external)]\npub proof fn lemma_target")),
             ("SPEC_OR_SIGNATURE_MODIFIED", SAMPLE_ORIG.replace("s[0] <= s[k],", "true,")),
             ("AXIOM_DECL", SAMPLE_ORIG + "\naxiom fn fake_magic() ensures false;\n"),
             ("PANIC_STUB", SAMPLE_ORIG.replace("{\n}", "{\n    unimplemented!();\n}")),
@@ -89,7 +91,15 @@ pub proof fn lemma_target""",
 
 class TestSlicerAndErrorClassifier(unittest.TestCase):
     def test_slicer_keeps_reachable_spec_and_drops_unrelated_symbols(self) -> None:
-        sl = slice_for_target(SAMPLE_ORIG, target_function="lemma_target", max_depth=2, max_lines=200)
+        # When file fits within max_lines, slicer preserves the complete numbered file (full_file=True).
+        sl_full = slice_for_target(SAMPLE_ORIG, target_function="lemma_target", max_depth=2, max_lines=200)
+        self.assertTrue(sl_full["full_file"])
+        self.assertEqual(sl_full["omitted_symbol_count"], 0)
+
+        # When file exceeds max_lines, slicer keeps reachable cone and drops unrelated symbols.
+        padded = SAMPLE_ORIG + "\n" * 60
+        sl = slice_for_target(padded, target_function="lemma_target", max_depth=2, max_lines=30)
+        self.assertFalse(sl["full_file"])
         names = [it["name"] for it in sl["selected_items"]]
         self.assertIn("lemma_target", names)
         self.assertIn("sorted", names)
@@ -98,6 +108,28 @@ class TestSlicerAndErrorClassifier(unittest.TestCase):
         shown = show_symbol(SAMPLE_ORIG, "unrelated_helper")
         self.assertEqual(len(shown), 1)
         self.assertIn("x + 42", shown[0]["numbered_source"])
+
+        batch = show_symbols(SAMPLE_ORIG, ["sorted", "unrelated_helper", "missing_sym"])
+        self.assertEqual(len(batch["sorted"]), 1)
+        self.assertEqual(len(batch["unrelated_helper"]), 1)
+        self.assertEqual(batch["missing_sym"], [])
+
+    def test_treatment_prompt_uses_literal_lz_path_without_shell_var(self) -> None:
+        sys.path.insert(0, str(REPO_ROOT / "bench"))
+        import run_eval
+
+        prompt = run_eval._build_prompt(
+            "treatment",
+            Path("/tmp/task.rs"),
+            Path("/tmp/orig.rs"),
+            "lemma_target",
+            Path("/tmp/verus"),
+            line_count=50,
+            is_exec_fn=False,
+        )
+        self.assertNotIn("$LZ", prompt)
+        self.assertIn("scripts/lz.py", prompt)
+        self.assertIn("check ", prompt)
 
     def test_error_parser_and_classifier(self) -> None:
         sample_stderr = (
@@ -116,6 +148,151 @@ class TestSlicerAndErrorClassifier(unittest.TestCase):
 
         cls, _ = classify_error(None, "Resource limit (rlimit) exceeded", "")
         self.assertEqual(cls, "RLIMIT_TIMEOUT")
+
+        # Regression: rustc multi-line span `| /` must NOT trigger NONLINEAR_ARITH,
+        # and substring `Set` in `VReplicaSetView` must NOT trigger TRIGGER_INSTANTIATION.
+        multiline_precond = (
+            "     |\n"
+            "1010 |           value.perm.present ==> MEM_valid(value.addr),\n"
+            "     |           -------------------------------------------- failed precondition\n"
+            "...\n"
+            "1076 | /         page_map_set(\n"
+            "1077 | |             target_l2_p,\n"
+        )
+        cls_pre, _ = classify_error(None, "precondition not satisfied", multiline_precond)
+        self.assertEqual(cls_pre, "PRECONDITION_FAIL")
+
+        multiline_post = (
+            "     |\n"
+            "4826 | / pub proof fn stable_check(vrs: VReplicaSetView, cluster: Cluster)\n"
+            "4832 | |     valid(stable(stable_spec(cluster)))\n"
+        )
+        cls_post, _ = classify_error(None, "postcondition not satisfied", multiline_post)
+        self.assertEqual(cls_post, "MISSING_LEMMA")
+
+    def test_slicer_exposes_available_proof_fn_catalog(self) -> None:
+        src = SAMPLE_ORIG.replace(
+            "pub proof fn lemma_target",
+            "pub proof fn provided_library_lemma(x: int) ensures x == x {}\n\npub proof fn lemma_target",
+        )
+        sl = slice_for_target(src, target_function="lemma_target", max_depth=2, max_lines=200)
+        avail_names = [it["name"] for it in sl["available_proof_fns"]]
+        self.assertIn("provided_library_lemma", avail_names)
+        self.assertIn("provided_library_lemma", sl["context_text"])
+
+    def test_agy_usage_does_not_zero_out_input_tokens_when_cache_exceeds_input(self) -> None:
+        sys.path.insert(0, str(REPO_ROOT / "bench"))
+        import run_eval
+
+        cfg = json.loads((REPO_ROOT / "config" / "experiment.json").read_text(encoding="utf-8"))
+        pricing = cfg["pricing_usd_per_million_tokens"]
+        fake_stdout = json.dumps(
+            {
+                "usage": {
+                    "input_tokens": 24224,
+                    "cache_read_tokens": 45533,
+                    "output_tokens": 1744,
+                    "thinking_tokens": 798,
+                },
+                "stats": {"turns": 5},
+            }
+        )
+        parsed = run_eval.extract_agent_usage("agy", fake_stdout, pricing, pricing_tier="mid_balanced")
+        self.assertEqual(parsed["calls"], 5)
+        # 24224*3.0 + 45533*0.3 + 1744*15.0 + 798*15.0 = 124461.9 -> $0.124462
+        self.assertAlmostEqual(parsed["cost_usd"], 0.124462, places=6)
+
+    def test_pi_ndjson_usage_counts_exact_turns_and_avoids_double_charging_reasoning(self) -> None:
+        sys.path.insert(0, str(REPO_ROOT / "bench"))
+        import run_eval
+
+        cfg = json.loads((REPO_ROOT / "config" / "experiment.json").read_text(encoding="utf-8"))
+        pricing = cfg["pricing_usd_per_million_tokens"]
+        ndjson = "\n".join(
+            [
+                json.dumps({"type": "session", "version": 3}),
+                json.dumps({"type": "tool_execution_start", "toolName": "bash"}),
+                json.dumps(
+                    {
+                        "type": "message_end",
+                        "message": {
+                            "role": "assistant",
+                            "model": "deepseek-v4-flash",
+                            "usage": {"input": 10000, "cacheRead": 50000, "cacheWrite": 0, "output": 3000, "reasoning": 2000},
+                            "content": [{"type": "text", "text": "step 1"}],
+                        },
+                    }
+                ),
+                json.dumps(
+                    {
+                        "type": "message_end",
+                        "message": {
+                            "role": "assistant",
+                            "model": "deepseek-v4-flash",
+                            "usage": {"input": 2000, "cacheRead": 60000, "cacheWrite": 0, "output": 1000, "reasoning": 500},
+                            "content": [{"type": "text", "text": "VERIFIED"}],
+                        },
+                    }
+                ),
+            ]
+        )
+        parsed = run_eval.extract_agent_usage("pi", ndjson, pricing, pricing_tier="deepseek_flash_offpeak")
+        self.assertEqual(parsed["calls"], 2)
+        self.assertEqual(parsed["usage"]["input_tokens"], 12000)
+        self.assertEqual(parsed["usage"]["cache_read_tokens"], 110000)
+        self.assertEqual(parsed["usage"]["output_tokens"], 1500)
+        self.assertEqual(parsed["usage"]["thinking_tokens"], 2500)
+        # (12000*0.15 + 110000*0.003 + 4000*0.60) / 1e6 = (1800 + 330 + 2400) / 1e6 = 0.004530
+        self.assertAlmostEqual(parsed["cost_usd"], 0.00453, places=6)
+
+    def test_macos_sandbox_blocks_runs_dataset_and_sibling_tmpdirs(self) -> None:
+        if sys.platform != "darwin":
+            self.skipTest("macOS sandbox-exec test")
+        sys.path.insert(0, str(REPO_ROOT / "bench"))
+        import run_eval
+
+        with tempfile.TemporaryDirectory(prefix="lz_own_") as own_tmp, tempfile.TemporaryDirectory(prefix="lz_sib_") as sib_tmp:
+            own_p = Path(own_tmp)
+            sib_p = Path(sib_tmp)
+            (own_p / "mine.txt").write_text("ok", encoding="utf-8")
+            (sib_p / "secret.txt").write_text("secret", encoding="utf-8")
+
+            # Own dir is readable, sibling lz_* dir is blocked, runs/ and skills/ (in control) are blocked.
+            r_own = subprocess.run(
+                run_eval.wrap_with_sandbox(["cat", str(own_p / "mine.txt")], mode="control", own_tmp_dir=own_p),
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(r_own.returncode, 0, r_own.stderr)
+            self.assertEqual(r_own.stdout.strip(), "ok")
+
+            r_sib = subprocess.run(
+                run_eval.wrap_with_sandbox(["cat", str(sib_p / "secret.txt")], mode="control", own_tmp_dir=own_p),
+                capture_output=True,
+                text=True,
+            )
+            self.assertNotEqual(r_sib.returncode, 0)
+
+            r_runs = subprocess.run(
+                run_eval.wrap_with_sandbox(["ls", str(REPO_ROOT / "runs")], mode="treatment", own_tmp_dir=own_p),
+                capture_output=True,
+                text=True,
+            )
+            self.assertNotEqual(r_runs.returncode, 0)
+
+            r_skill_ctrl = subprocess.run(
+                run_eval.wrap_with_sandbox(["cat", str(REPO_ROOT / "skills" / "lemma-zero" / "SKILL.md")], mode="control", own_tmp_dir=own_p),
+                capture_output=True,
+                text=True,
+            )
+            self.assertNotEqual(r_skill_ctrl.returncode, 0)
+
+            r_skill_trt = subprocess.run(
+                run_eval.wrap_with_sandbox(["cat", str(REPO_ROOT / "skills" / "lemma-zero" / "SKILL.md")], mode="treatment", own_tmp_dir=own_p),
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(r_skill_trt.returncode, 0, r_skill_trt.stderr)
 
 
 class TestLedgerAndBudgetCap(unittest.TestCase):

@@ -26,18 +26,20 @@ FORBIDDEN_PATTERNS: tuple[tuple[str, re.Pattern[str], str], ...] = (
     ),
     (
         "EXTERNAL_BODY_ATTR",
-        re.compile(r"#\s*!?\s*\[\s*verifier\s*::\s*external_body\b"),
-        "Introduces `#[verifier::external_body]`, skipping body verification.",
+        re.compile(r"#\s*!?\s*\[\s*verifier\s*(?:::\s*|\(\s*)external_body\b"),
+        "Introduces `#[verifier::external_body]` or `#[verifier(external_body)]`, skipping body verification.",
     ),
     (
         "EXTERNAL_ATTR",
-        re.compile(r"#\s*!?\s*\[\s*verifier\s*::\s*external(?:_fn_specification|_type_specification|_trait_specification)?\b"),
-        "Introduces `#[verifier::external*]` attribute.",
+        re.compile(
+            r"#\s*!?\s*\[\s*verifier\s*(?:::\s*|\(\s*)external(?:_fn_specification|_type_specification|_trait_specification)?\b"
+        ),
+        "Introduces `#[verifier::external*]` or `#[verifier(external*)]` attribute.",
     ),
     (
         "NO_DECREASES_ATTR",
-        re.compile(r"#\s*!?\s*\[\s*verifier\s*::\s*exec_allows_no_decreases_clause\b"),
-        "Introduces `#[verifier::exec_allows_no_decreases_clause]`, bypassing termination check.",
+        re.compile(r"#\s*!?\s*\[\s*verifier\s*(?:::\s*|\(\s*)exec_allows_no_decreases_clause\b"),
+        "Introduces `#[verifier::exec_allows_no_decreases_clause]` or parenthesized equivalent, bypassing termination check.",
     ),
     (
         "AXIOM_DECL",

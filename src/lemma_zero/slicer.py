@@ -230,7 +230,7 @@ def slice_for_target(
     target_function: str | None = None,
     failing_line: int | None = None,
     max_depth: int = 2,
-    max_lines: int = 320,
+    max_lines: int = 450,
 ) -> dict[str, Any]:
     """Extract a compact, dependency-ordered slice around target_function with exact line numbers."""
     total_lines = source.count("\n") + 1
@@ -250,6 +250,43 @@ def slice_for_target(
             "context_text": "\n".join(
                 f"{idx:4d} | {line}" for idx, line in enumerate(source.splitlines()[:max_lines], start=1)
             ),
+        }
+
+    if total_lines <= max_lines:
+        numbered_full = "\n".join(
+            f"{ln:4d} | {txt}" for ln, txt in enumerate(source.splitlines(), start=1)
+        )
+        available_proof_fns = [
+            it
+            for it in selectable
+            if it.index != target.index
+            and it.kind == "fn"
+            and ("proof fn" in it.signature or "axiom fn" in it.signature or "broadcast" in it.signature)
+        ]
+        external_spec_stubs = [
+            it
+            for it in selectable
+            if it.kind == "fn" and "spec fn" in it.signature and "external_body" in it.body
+        ]
+        blocks = [f"// === [full file: {total_lines} lines <= max_lines {max_lines}] ===\n{numbered_full}"]
+        if external_spec_stubs:
+            stub_lines = [
+                f"// WARNING: L{it.start_line}: `{it.name}` is #[verifier::external_body] spec fn"
+                for it in external_spec_stubs
+            ]
+            blocks.append("// === [Reachable external_body spec stubs] ===\n" + "\n".join(stub_lines))
+        return {
+            "total_lines": total_lines,
+            "sliced_lines": total_lines,
+            "reduction_pct": 0.0,
+            "full_file": True,
+            "target": target.to_summary(),
+            "selected_items": [it.to_summary() for it in selectable],
+            "available_proof_fns": [it.to_summary() for it in available_proof_fns[:40]],
+            "frontier_omitted": [],
+            "external_spec_stubs": [it.to_summary() for it in external_spec_stubs],
+            "omitted_symbol_count": 0,
+            "context_text": "\n\n".join(blocks),
         }
 
     by_name: dict[str, list[VerusItem]] = {}
@@ -284,6 +321,25 @@ def slice_for_target(
 
     selected_items = sorted((items[idx] for idx in selected_indices), key=lambda it: it.start_line)
 
+    # Lossless navigation: list exact symbols directly referenced by selected_items that were omitted.
+    frontier_indices: set[int] = set()
+    for it in selected_items:
+        for ident in it.identifiers:
+            for cand in by_name.get(ident, ()):
+                if cand.index not in seen_indices and cand.name != "main":
+                    frontier_indices.add(cand.index)
+    frontier_omitted = sorted((items[idx] for idx in frontier_indices), key=lambda it: it.start_line)
+
+    # Surface existing non-target proof/axiom lemmas in the file so agents never miss provided library lemmas.
+    available_proof_fns = [
+        it
+        for it in selectable
+        if it.index != target.index
+        and it.index not in seen_indices
+        and it.kind == "fn"
+        and ("proof fn" in it.signature or "axiom fn" in it.signature or "broadcast" in it.signature)
+    ]
+
     rendered_blocks: list[str] = []
     for it in selected_items:
         header = f"// === [{it.kind} {it.name}] lines {it.start_line}..{it.end_line} ==="
@@ -293,14 +349,47 @@ def slice_for_target(
         )
         rendered_blocks.append(f"{header}\n{numbered}")
 
+    if frontier_omitted:
+        f_lines = [
+            f"// L{it.start_line}..{it.end_line} [{it.kind} {it.name}]: {it.signature}"
+            for it in frontier_omitted[:50]
+        ]
+        rendered_blocks.append(
+            "// === [Referenced frontier symbols omitted (batch-fetch via `lz show --symbol s1,s2`)] ===\n"
+            + "\n".join(f_lines)
+        )
+
+    if available_proof_fns:
+        catalog_lines = [
+            f"// L{it.start_line}..{it.end_line}: {it.signature}"
+            for it in available_proof_fns[:40]
+        ]
+        rendered_blocks.append(
+            "// === [Existing proof/broadcast lemmas in file (use `lz show --symbol s1,s2`)] ===\n"
+            + "\n".join(catalog_lines)
+        )
+
+    external_spec_stubs = [
+        it
+        for it in selected_items
+        if it.kind == "fn" and "spec fn" in it.signature and "external_body" in it.body
+    ]
+    if external_spec_stubs:
+        stub_lines = [f"// WARNING: L{it.start_line}: `{it.name}` is #[verifier::external_body] spec fn" for it in external_spec_stubs]
+        rendered_blocks.append("// === [Reachable external_body spec stubs] ===\n" + "\n".join(stub_lines))
+
     reduction_pct = round((1.0 - (used_lines / total_lines)) * 100.0, 1) if total_lines else 0.0
 
     return {
         "total_lines": total_lines,
         "sliced_lines": used_lines,
         "reduction_pct": max(0.0, reduction_pct),
+        "full_file": False,
         "target": target.to_summary(),
         "selected_items": [it.to_summary() for it in selected_items],
+        "available_proof_fns": [it.to_summary() for it in available_proof_fns[:40]],
+        "frontier_omitted": [it.to_summary() for it in frontier_omitted[:50]],
+        "external_spec_stubs": [it.to_summary() for it in external_spec_stubs],
         "omitted_symbol_count": max(0, len(selectable) - len(selected_items)),
         "context_text": "\n\n".join(rendered_blocks),
     }
@@ -320,3 +409,29 @@ def show_symbol(source: str, symbol: str) -> list[dict[str, Any]]:
         )
         results.append({**it.to_summary(), "numbered_source": numbered})
     return results
+
+
+def show_symbols(source: str, symbols: list[str]) -> dict[str, list[dict[str, Any]]]:
+    """Batch-fetch exact line-numbered sources for multiple symbols in one pass."""
+    items = index_verus_items(source)
+    by_name_non_impl: dict[str, list[VerusItem]] = {}
+    by_name_all: dict[str, list[VerusItem]] = {}
+    for it in items:
+        by_name_all.setdefault(it.name, []).append(it)
+        if it.kind != "impl":
+            by_name_non_impl.setdefault(it.name, []).append(it)
+
+    out: dict[str, list[dict[str, Any]]] = {}
+    for sym in symbols:
+        matches = by_name_non_impl.get(sym) or by_name_all.get(sym) or []
+        out[sym] = [
+            {
+                **it.to_summary(),
+                "numbered_source": "\n".join(
+                    f"{ln:4d} | {txt}"
+                    for ln, txt in enumerate(it.body.splitlines(), start=it.start_line)
+                ),
+            }
+            for it in matches
+        ]
+    return out

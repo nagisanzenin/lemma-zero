@@ -46,6 +46,20 @@
       "cache_read": 0.25,
       "output": 25.0,
       "thinking": 25.0
+    },
+    "deepseek_flash_offpeak": {
+      "input": 0.15,
+      "cache_write": 0.15,
+      "cache_read": 0.003,
+      "output": 0.6,
+      "thinking": 0.6
+    },
+    "deepseek_flash_peak": {
+      "input": 0.3,
+      "cache_write": 0.3,
+      "cache_read": 0.006,
+      "output": 1.2,
+      "thinking": 1.2
     }
   }
 }

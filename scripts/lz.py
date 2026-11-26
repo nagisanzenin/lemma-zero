@@ -22,7 +22,7 @@ if str(SRC_DIR) not in sys.path:
 from lemma_zero.anticheat import verify_candidate
 from lemma_zero.envcheck import check_environment
 from lemma_zero.ledger import ExperimentLedger, summarize_ledger
-from lemma_zero.slicer import show_symbol, slice_for_target
+from lemma_zero.slicer import show_symbol, show_symbols, slice_for_target
 from lemma_zero.verus_runner import find_verus_binary, run_verus
 
 
@@ -70,17 +70,37 @@ def build_parser() -> argparse.ArgumentParser:
     p_slice.add_argument("--target", type=str, default=None, help="Target function name.")
     p_slice.add_argument("--line", type=int, default=None, help="Optional failing line number.")
     p_slice.add_argument("--depth", type=int, default=2, help="Transitive dependency depth.")
-    p_slice.add_argument("--max-lines", type=int, default=320, help="Maximum sliced lines.")
+    p_slice.add_argument("--max-lines", type=int, default=450, help="Maximum sliced lines.")
     p_slice.add_argument("--json", action="store_true")
 
-    p_show = sub.add_parser("show", help="Show exact line-numbered source for one symbol on demand.")
+    p_diag = sub.add_parser("diag", help="Single-call Turn-1 check + reachable spec slice (saves turns on large files).")
+    p_diag.add_argument("file", type=Path, help="Path to Verus .rs file.")
+    p_diag.add_argument("--original", type=Path, default=None, help="Optional original task .rs file.")
+    p_diag.add_argument("--target", type=str, default=None, help="Target function name.")
+    p_diag.add_argument("--depth", type=int, default=2)
+    p_diag.add_argument("--max-lines", type=int, default=450)
+    p_diag.add_argument("--rlimit", type=int, default=15)
+    p_diag.add_argument("--timeout", type=int, default=25)
+    p_diag.add_argument("--verus", type=Path, default=None)
+    p_diag.add_argument("--json", action="store_true")
+
+    p_show = sub.add_parser("show", help="Show exact line-numbered source for one or more symbols on demand.")
     p_show.add_argument("file", type=Path)
-    p_show.add_argument("--symbol", type=str, required=True)
+    p_show.add_argument(
+        "--symbol",
+        "--symbols",
+        dest="symbols",
+        type=str,
+        action="append",
+        required=True,
+        help="Symbol name(s); accepts comma-separated lists (e.g. --symbol foo,bar) or repeated flags.",
+    )
     p_show.add_argument("--json", action="store_true")
 
     p_check = sub.add_parser("check", help="Run anti-cheat (optional) + real Verus check with structured errors.")
     p_check.add_argument("file", type=Path, help="Candidate .rs file to verify.")
     p_check.add_argument("--original", type=Path, default=None, help="Original task .rs file for anti-cheat gate.")
+    p_check.add_argument("--fn", dest="fn_name", type=str, default=None, help="Optional single function for fast intermediate checks.")
     p_check.add_argument("--rlimit", type=int, default=None)
     p_check.add_argument("--timeout", type=int, default=None)
     p_check.add_argument("--expand-errors", action="store_true")
@@ -152,19 +172,92 @@ def main(argv: list[str] | None = None) -> int:
         print(res["context_text"])
         return 0
 
+    if args.command == "diag":
+        src = args.file.read_text(encoding="utf-8")
+        ac_report = None
+        if args.original is not None:
+            ac_report = verify_candidate(args.original.read_text(encoding="utf-8"), src)
+        verus_res = run_verus(
+            args.file,
+            verus_binary=args.verus,
+            rlimit=args.rlimit,
+            timeout_seconds=args.timeout,
+            verify_function=args.target,
+        )
+        failing_line = verus_res.errors[0].line if verus_res.errors else None
+        sl = slice_for_target(
+            src,
+            target_function=args.target,
+            failing_line=failing_line,
+            max_depth=args.depth,
+            max_lines=args.max_lines,
+        )
+        if args.json:
+            print(
+                json.dumps(
+                    {
+                        "anticheat": ac_report.to_dict() if ac_report else None,
+                        "verus": verus_res.to_dict(),
+                        "slice": sl,
+                    },
+                    indent=2,
+                )
+            )
+            return 0 if verus_res.verified else 1
+        status = "VERIFIED" if verus_res.verified else "FAILED"
+        ac_label = "CLEAN" if (ac_report and ac_report.clean) else ("UNCHECKED" if ac_report is None else "FAIL")
+        print(f"{status} (scope={args.target or 'full'}) | {verus_res.raw_summary} | time={verus_res.wall_seconds}s | anticheat={ac_label}")
+        for idx, err in enumerate(verus_res.errors, start=1):
+            loc = f"L{err.line}:{err.col}" if err.line else "unknown"
+            print(f"[{idx}] {err.error_class} @ {loc}: {err.message}")
+            if err.snippet:
+                print(err.snippet)
+            print(f"  -> {err.hint}")
+        tgt = sl["target"]
+        tgt_label = f"{tgt['name']} (L{tgt['start_line']}..L{tgt['end_line']})" if tgt else "unknown"
+        is_exec_fn = bool(tgt and "proof fn" not in tgt["signature"] and "spec fn" not in tgt["signature"])
+        mode_hint = (
+            "target_mode=exec_fn (prefer inline `proof { ... }` + existing file lemmas; avoid unnecessary helper `proof fn`s)"
+            if is_exec_fn
+            else "target_mode=proof_fn (batch-first helper `proof fn` DAG when induction/liveness is needed)"
+        )
+        print(
+            f"\n# Slice: {args.file.name} | target={tgt_label} | {mode_hint} | "
+            f"{sl['sliced_lines']}/{sl['total_lines']} lines (-{sl['reduction_pct']}%) | "
+            f"omitted={sl['omitted_symbol_count']} symbols"
+        )
+        print(sl["context_text"])
+        return 0 if verus_res.verified else 1
+
     if args.command == "show":
         src = args.file.read_text(encoding="utf-8")
-        matches = show_symbol(src, args.symbol)
+        sym_list: list[str] = []
+        for raw_arg in args.symbols:
+            for part in raw_arg.split(","):
+                s = part.strip()
+                if s and s not in sym_list:
+                    sym_list.append(s)
+        found_map = show_symbols(src, sym_list)
         if args.json:
-            print(json.dumps(matches, indent=2))
+            if len(sym_list) == 1:
+                print(json.dumps(found_map[sym_list[0]], indent=2))
+            else:
+                print(json.dumps(found_map, indent=2))
             return 0
-        if not matches:
-            print(f"Symbol `{args.symbol}` not found in {args.file}.", file=sys.stderr)
-            return 1
-        for m in matches:
-            print(f"// === [{m['kind']} {m['name']}] lines {m['start_line']}..{m['end_line']} ===")
-            print(m["numbered_source"])
-        return 0
+        any_found = False
+        missing: list[str] = []
+        for sym in sym_list:
+            matches = found_map[sym]
+            if not matches:
+                missing.append(sym)
+                continue
+            any_found = True
+            for m in matches:
+                print(f"// === [{m['kind']} {m['name']}] lines {m['start_line']}..{m['end_line']} ===")
+                print(m["numbered_source"])
+        if missing:
+            print(f"Symbols not found in {args.file}: {', '.join(missing)}", file=sys.stderr)
+        return 0 if any_found else 1
 
     if args.command == "anticheat":
         rep = verify_candidate(
@@ -210,10 +303,12 @@ def main(argv: list[str] | None = None) -> int:
             verus_binary=args.verus,
             rlimit=args.rlimit or int(cfg["verus"]["rlimit"]),
             timeout_seconds=args.timeout or int(cfg["verus"]["timeout_seconds"]),
+            verify_function=args.fn_name,
             expand_errors=args.expand_errors,
         )
         payload = {
             "verified": verus_res.verified,
+            "scope": args.fn_name or "full",
             "anticheat_clean": ac_report.clean if ac_report is not None else None,
             "anticheat": ac_report.to_dict() if ac_report is not None else None,
             "verus": verus_res.to_dict(),
@@ -222,8 +317,9 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(payload, indent=2))
         else:
             status = "VERIFIED" if verus_res.verified else "FAILED"
+            scope_note = f" [scope={args.fn_name}; run full-file check before stopping]" if args.fn_name else ""
             print(
-                f"{status} | {verus_res.raw_summary} | time={verus_res.wall_seconds}s | "
+                f"{status}{scope_note} | {verus_res.raw_summary} | time={verus_res.wall_seconds}s | "
                 f"anticheat={'CLEAN' if (ac_report and ac_report.clean) else ('UNCHECKED' if ac_report is None else 'FAIL')}"
             )
             for idx, err in enumerate(verus_res.errors, start=1):

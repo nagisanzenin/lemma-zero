@@ -72,11 +72,31 @@ def find_verus_binary(explicit: str | Path | None = None) -> Path | None:
     return Path(on_path).resolve() if on_path else None
 
 
+_GUTTER_RE = re.compile(r"^\s*(?:\d+|\.+)?\s*\|\s*(?:[/_\\|^-]+\s*)?")
+_CARET_ONLY_RE = re.compile(r"^\s*[\^~_-]+(?:\s+.*)?$")
+_NONLINEAR_OP_RE = re.compile(r"(?:\s[*/%]\s|\s<<\s|\s>>\s|\s&\s|\s\|\s)")
+_TRIGGER_TOK_RE = re.compile(
+    r"(?:\b(?:forall|exists|Seq|Map|Set|Multiset)\b|=~=|~~=|\.dom\(\)|\.contains(?:_key)?\()"
+)
+
+
+def _strip_diagnostic_gutter(snippet: str) -> str:
+    """Remove rustc line-number gutters (`48 | /`) and underline markers before heuristic scanning."""
+    cleaned: list[str] = []
+    for raw_line in snippet.splitlines():
+        line = _GUTTER_RE.sub("", raw_line).strip()
+        if not line or _CARET_ONLY_RE.match(line):
+            continue
+        cleaned.append(line)
+    return "\n".join(cleaned)
+
+
 def classify_error(code: str | None, message: str, snippet: str) -> tuple[str, str]:
     """Classify a single Verus/Rust error block into a deterministic recovery bucket."""
     low_msg = message.lower()
-    low_snip = snippet.lower()
-    combined = f"{low_msg}\n{low_snip}"
+    code_only = _strip_diagnostic_gutter(snippet)
+    low_code = code_only.lower()
+    combined = f"{low_msg}\n{low_code}"
 
     if "rlimit" in combined or "resource limit" in combined or "timed out" in combined:
         return (
@@ -110,14 +130,11 @@ def classify_error(code: str | None, message: str, snippet: str) -> tuple[str, s
             "Add an explicit `decreases <measure>` clause and prove strict decrease on recursive calls.",
         )
 
-    if "arithmetic underflow/overflow" in low_msg or any(
-        op in snippet for op in (" * ", " / ", " % ", "<<", ">>", "& ", "| ")
-    ):
-        if "postcondition" not in low_msg or any(op in snippet for op in (" * ", " / ", " % ", "<<", ">>")):
-            return (
-                "NONLINEAR_ARITH",
-                "Isolate pure arithmetic bounds into `assert(...) by (nonlinear_arith)` or `by (bit_vector)` with minimal `requires`.",
-            )
+    if "arithmetic underflow/overflow" in low_msg:
+        return (
+            "NONLINEAR_ARITH",
+            "Isolate pure arithmetic bounds into `assert(...) by (nonlinear_arith)` or `by (bit_vector)` with minimal `requires`.",
+        )
 
     if "precondition not satisfied" in low_msg:
         return (
@@ -125,7 +142,14 @@ def classify_error(code: str | None, message: str, snippet: str) -> tuple[str, s
             "Prove the callee's failing `requires` clause immediately before the call (or strengthen an upstream helper lemma).",
         )
 
-    if any(tok in snippet for tok in ("forall", "exists", "=~=", "=~~=", ".dom()", ".contains", "Seq", "Map", "Set", "Multiset")):
+    if _NONLINEAR_OP_RE.search(code_only):
+        if "postcondition" not in low_msg or re.search(r"(?:\s[*/%]\s|\s<<\s|\s>>\s)", code_only):
+            return (
+                "NONLINEAR_ARITH",
+                "Isolate pure arithmetic bounds into `assert(...) by (nonlinear_arith)` or `by (bit_vector)` with minimal `requires`.",
+            )
+
+    if _TRIGGER_TOK_RE.search(code_only):
         return (
             "TRIGGER_INSTANTIATION",
             "Provide explicit ground trigger term, witness for `exists`, `assert(a =~= b)`, `reveal(...)`, or a scoped `assert forall ... by { ... }`.",
