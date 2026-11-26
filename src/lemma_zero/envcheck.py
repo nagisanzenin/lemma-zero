@@ -10,13 +10,17 @@ from typing import Any
 
 from .verus_runner import find_verus_binary
 
-TOOLS = ("rustc", "cargo", "verus", "python3", "uv", "claude", "codex", "pi", "hermes", "gh")
+TOOLS = ("rustc", "cargo", "verus", "python3", "uv", "agy", "claude", "codex", "pi", "hermes", "gh")
 
 
 def _tool_version(cmd: str) -> str | None:
     if cmd == "verus":
         found = find_verus_binary()
         path = str(found) if found else None
+    elif cmd == "agy":
+        on_path = shutil.which("agy")
+        fallback = Path.home() / ".gemini" / "bin" / "agy"
+        path = on_path or (str(fallback) if fallback.is_file() else None)
     else:
         path = shutil.which(cmd)
     if path is None:

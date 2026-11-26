@@ -171,6 +171,36 @@ class TestPluginAndRealVerus(unittest.TestCase):
         data = json.loads(proc.stdout)
         self.assertTrue(data["ok"])
 
+    def test_agy_bench_dry_run_succeeds(self) -> None:
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(REPO_ROOT / "bench" / "run_eval.py"),
+                "--manifest",
+                str(REPO_ROOT / "manifests" / "dev-20.json"),
+                "--mode",
+                "treatment",
+                "--agent",
+                "agy",
+                "--model",
+                "gemini-4-neon-medium",
+                "--limit",
+                "6",
+                "--stratified",
+                "--out",
+                "/tmp/lz_test_agy_dry.jsonl",
+                "--dry-run",
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        data = json.loads(proc.stdout)
+        self.assertEqual(data["manifest_tasks"], 6)
+        self.assertEqual(len(data["projects"]), 6)
+        self.assertIn("--add-dir", data["sample_cmd"])
+
     @unittest.skipUnless(find_verus_binary() is not None, "Verus binary not installed locally")
     def test_real_verus_rejects_unproved_and_accepts_proved_with_helper_lemma(self) -> None:
         inductive_orig = """

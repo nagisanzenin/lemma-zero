@@ -114,7 +114,13 @@ def summarize_ledger(records: list[TaskRecord]) -> dict[str, Any]:
     cost_per_solved = round(total_cost / solved, 4) if solved else None
     wall_times = [r.wall_seconds for r in records]
     median_wall = round(statistics.median(wall_times), 2) if wall_times else 0.0
+    mean_wall = round(sum(wall_times) / total, 2) if total else 0.0
     avg_calls = round(sum(r.calls for r in records) / total, 2) if total else 0.0
+    total_input = sum(r.input_tokens for r in records)
+    total_cache_read = sum(r.cache_read_tokens for r in records)
+    total_output = sum(r.output_tokens for r in records)
+    total_thinking = sum(r.thinking_tokens for r in records)
+    avg_tokens = round((total_input + total_output + total_thinking) / total, 1) if total else 0.0
 
     by_project: dict[str, dict[str, Any]] = {}
     for rec in records:
@@ -136,6 +142,12 @@ def summarize_ledger(records: list[TaskRecord]) -> dict[str, Any]:
         "avg_cost_per_task_usd": avg_cost,
         "cost_per_solved_usd": cost_per_solved,
         "median_wall_seconds": median_wall,
+        "mean_wall_seconds": mean_wall,
         "avg_calls_per_task": avg_calls,
+        "total_input_tokens": total_input,
+        "total_cache_read_tokens": total_cache_read,
+        "total_output_tokens": total_output,
+        "total_thinking_tokens": total_thinking,
+        "avg_tokens_per_task": avg_tokens,
         "by_project": dict(sorted(by_project.items())),
     }
