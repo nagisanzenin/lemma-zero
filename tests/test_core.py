@@ -78,15 +78,37 @@ pub proof fn lemma_target""",
             ("EXTERNAL_BODY_ATTR", SAMPLE_ORIG.replace("pub proof fn lemma_target", "#[verifier(external_body)]\npub proof fn lemma_target")),
             ("EXTERNAL_ATTR", SAMPLE_ORIG.replace("pub proof fn lemma_target", "#[verifier::external]\npub proof fn lemma_target")),
             ("EXTERNAL_ATTR", SAMPLE_ORIG.replace("pub proof fn lemma_target", "#[verifier(external)]\npub proof fn lemma_target")),
+            ("ASSUME_SPEC_ATTR", SAMPLE_ORIG.replace("pub proof fn lemma_target", "#[verifier::assume_specification]\npub proof fn lemma_target")),
             ("SPEC_OR_SIGNATURE_MODIFIED", SAMPLE_ORIG.replace("s[0] <= s[k],", "true,")),
+            ("SPEC_OR_ITEM_BODY_MODIFIED", SAMPLE_ORIG.replace("x + 42", "x + 0")),
             ("AXIOM_DECL", SAMPLE_ORIG + "\naxiom fn fake_magic() ensures false;\n"),
             ("PANIC_STUB", SAMPLE_ORIG.replace("{\n}", "{\n    unimplemented!();\n}")),
         ]
         for expected_code, bad_src in cheats:
             with self.subTest(expected_code=expected_code):
-                report = verify_candidate(SAMPLE_ORIG, bad_src)
+                report = verify_candidate(SAMPLE_ORIG, bad_src, target_function="lemma_target")
                 self.assertFalse(report.clean)
                 self.assertIn(expected_code, [v.code for v in report.violations])
+
+    def test_rejects_removing_external_body_stub_and_inventing_spec_body(self) -> None:
+        orig_stub = """
+verus! {
+#[verifier::external_body]
+pub closed spec fn init(x: int) -> bool {
+    unimplemented!()
+}
+pub proof fn target(x: int) requires init(x) ensures x == 0 {}
+}
+"""
+        fake_cand = orig_stub.replace(
+            "#[verifier::external_body]\npub closed spec fn init(x: int) -> bool {\n    unimplemented!()\n}",
+            "pub closed spec fn init(x: int) -> bool {\n    x == 0\n}",
+        )
+        rep = verify_candidate(orig_stub, fake_cand, target_function="target")
+        self.assertFalse(rep.clean)
+        codes = {v.code for v in rep.violations}
+        self.assertIn("STUB_REMOVED", codes)
+        self.assertIn("SPEC_OR_ITEM_BODY_MODIFIED", codes)
 
 
 class TestSlicerAndErrorClassifier(unittest.TestCase):
@@ -130,6 +152,33 @@ class TestSlicerAndErrorClassifier(unittest.TestCase):
         self.assertNotIn("$LZ", prompt)
         self.assertIn("scripts/lz.py", prompt)
         self.assertIn("check ", prompt)
+        self.assertIn(" vstd ", prompt)
+        self.assertNotIn("SKILL.md", prompt)
+
+    def test_vstd_search_and_expand_errors_note_parsing(self) -> None:
+        from lemma_zero.vstd_index import find_vstd_dir, search_vstd
+
+        if find_vstd_dir() is not None:
+            res_seq = search_vstd("filter no_duplicates", limit=5)
+            self.assertGreater(res_seq["total_indexed"], 50)
+            self.assertGreater(len(res_seq["matches"]), 0)
+            res_bits = search_vstd("leading_zeros", limit=5)
+            self.assertGreater(len(res_bits["matches"]), 0)
+
+        expanded_stderr = (
+            "error: precondition not satisfied\n"
+            "  --> os.rs:1076:9\n"
+            "   |\n"
+            "1010 | value.perm.present ==> MEM_valid(value.addr),\n"
+            "   | -------------------------------------------- failed precondition\n"
+            "note: diagnostics via expansion\n"
+            "  --> os.rs:1010:32\n"
+            "   |\n"
+            "1010 | value.perm.present ==> MEM_valid(value.addr),\n"
+        )
+        errs = parse_verus_errors(expanded_stderr)
+        self.assertEqual(len(errs), 1)
+        self.assertIn("diagnostics via expansion", errs[0].snippet)
 
     def test_error_parser_and_classifier(self) -> None:
         sample_stderr = (

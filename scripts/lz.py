@@ -24,6 +24,7 @@ from lemma_zero.envcheck import check_environment
 from lemma_zero.ledger import ExperimentLedger, summarize_ledger
 from lemma_zero.slicer import show_symbol, show_symbols, slice_for_target
 from lemma_zero.verus_runner import find_verus_binary, run_verus
+from lemma_zero.vstd_index import search_vstd
 
 
 def _load_config(path: Path | None) -> dict:
@@ -100,12 +101,20 @@ def build_parser() -> argparse.ArgumentParser:
     p_check = sub.add_parser("check", help="Run anti-cheat (optional) + real Verus check with structured errors.")
     p_check.add_argument("file", type=Path, help="Candidate .rs file to verify.")
     p_check.add_argument("--original", type=Path, default=None, help="Original task .rs file for anti-cheat gate.")
+    p_check.add_argument("--target", type=str, default=None, help="Target function name (locks all other pre-existing functions immutable).")
     p_check.add_argument("--fn", dest="fn_name", type=str, default=None, help="Optional single function for fast intermediate checks.")
     p_check.add_argument("--rlimit", type=int, default=None)
-    p_check.add_argument("--timeout", type=int, default=None)
+    p_check.add_argument("--timeout", type=int, default=35)
     p_check.add_argument("--expand-errors", action="store_true")
     p_check.add_argument("--verus", type=Path, default=None, help="Explicit Verus binary path.")
     p_check.add_argument("--json", action="store_true")
+
+    p_vstd = sub.add_parser("vstd", help="Instant keyword search over Verus vstd proof/broadcast/spec library lemmas.")
+    p_vstd.add_argument("query", nargs="+", help="Space-separated keywords (e.g. `filter no_duplicates` or `leading_zeros`).")
+    p_vstd.add_argument("--kind", choices=("all", "proof", "spec"), default="all")
+    p_vstd.add_argument("--limit", type=int, default=12)
+    p_vstd.add_argument("--vstd-dir", type=Path, default=None)
+    p_vstd.add_argument("--json", action="store_true")
 
     p_vlem = sub.add_parser("verify-lemma", help="Verify a single helper proof fn bottom-up in seconds.")
     p_vlem.add_argument("file", type=Path)
@@ -119,6 +128,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_ac = sub.add_parser("anticheat", help="Run deterministic anti-cheat & spec-preservation check.")
     p_ac.add_argument("--original", type=Path, required=True)
     p_ac.add_argument("--candidate", type=Path, required=True)
+    p_ac.add_argument("--target", type=str, default=None)
     p_ac.add_argument("--json", action="store_true")
 
     p_led = sub.add_parser("ledger-summary", help="Summarize experiment JSONL ledger.")
@@ -176,7 +186,11 @@ def main(argv: list[str] | None = None) -> int:
         src = args.file.read_text(encoding="utf-8")
         ac_report = None
         if args.original is not None:
-            ac_report = verify_candidate(args.original.read_text(encoding="utf-8"), src)
+            ac_report = verify_candidate(
+                args.original.read_text(encoding="utf-8"),
+                src,
+                target_function=args.target,
+            )
         verus_res = run_verus(
             args.file,
             verus_binary=args.verus,
@@ -259,10 +273,26 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Symbols not found in {args.file}: {', '.join(missing)}", file=sys.stderr)
         return 0 if any_found else 1
 
+    if args.command == "vstd":
+        q = " ".join(args.query).strip()
+        res = search_vstd(q, vstd_dir=args.vstd_dir, kind=args.kind, limit=args.limit)
+        if args.json:
+            print(json.dumps(res, indent=2))
+            return 0
+        if not res["matches"]:
+            print(f"No vstd matches for `{q}` (indexed={res['total_indexed']}).")
+            return 1
+        print(f"# vstd search `{q}` ({len(res['matches'])}/{res['total_indexed']} indexed)")
+        for idx, m in enumerate(res["matches"], start=1):
+            print(f"\n[{idx}] {m['module_path']} ({m['rel_file']}:L{m['line']}, {m['kind']})")
+            print(m["header"])
+        return 0
+
     if args.command == "anticheat":
         rep = verify_candidate(
             args.original.read_text(encoding="utf-8"),
             args.candidate.read_text(encoding="utf-8"),
+            target_function=args.target,
         )
         if args.json:
             print(json.dumps(rep.to_dict(), indent=2))
@@ -282,6 +312,7 @@ def main(argv: list[str] | None = None) -> int:
             ac_report = verify_candidate(
                 args.original.read_text(encoding="utf-8"),
                 args.file.read_text(encoding="utf-8"),
+                target_function=args.target,
             )
             if not ac_report.clean:
                 out = {

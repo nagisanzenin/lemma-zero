@@ -101,7 +101,7 @@ def classify_error(code: str | None, message: str, snippet: str) -> tuple[str, s
     if "rlimit" in combined or "resource limit" in combined or "timed out" in combined:
         return (
             "RLIMIT_TIMEOUT",
-            "Split monolithic proof into smaller `assert(...) by { ... }` blocks or verify an isolated helper `proof fn` via `lz verify-lemma`.",
+            "Isolate heavy sub-claims into `assert(...) by { ... }` blocks or `#[verifier::spinoff_prover]` helpers; pinpoint failing conjuncts via `lz check --fn <target> --expand-errors --rlimit 15`.",
         )
 
     if code is not None or any(
@@ -194,13 +194,25 @@ def parse_verus_errors(stderr: str, max_errors: int = 8) -> list[VerusError]:
         while i < n:
             if _ERROR_HEADER_RE.match(lines[i]):
                 break
-            if lines[i].startswith("note: ") and snippet_lines:
-                break
+            if lines[i].startswith("note: "):
+                # Keep Verus expansion & related-location notes (pinpoint failing sub-conjuncts),
+                # but stop at top-level verification summary notes.
+                low_note = lines[i].lower()
+                if any(
+                    keep in low_note
+                    for keep in ("diagnostics via expansion", "related location", "failed this", "recommendation")
+                ):
+                    if len(snippet_lines) < 18:
+                        snippet_lines.append(lines[i].rstrip())
+                    i += 1
+                    continue
+                if snippet_lines:
+                    break
             loc_m = _LOC_RE.match(lines[i])
             if loc_m and loc_line is None:
                 loc_line = int(loc_m.group(2))
                 loc_col = int(loc_m.group(3))
-            elif lines[i].strip() and len(snippet_lines) < 10:
+            elif lines[i].strip() and len(snippet_lines) < 18:
                 snippet_lines.append(lines[i].rstrip())
             i += 1
 

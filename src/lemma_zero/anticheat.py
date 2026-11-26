@@ -42,6 +42,11 @@ FORBIDDEN_PATTERNS: tuple[tuple[str, re.Pattern[str], str], ...] = (
         "Introduces `#[verifier::exec_allows_no_decreases_clause]` or parenthesized equivalent, bypassing termination check.",
     ),
     (
+        "ASSUME_SPEC_ATTR",
+        re.compile(r"#\s*!?\s*\[\s*verifier\s*(?:::\s*|\(\s*)assume_specification\b"),
+        "Introduces `#[verifier::assume_specification]`, assuming an unverified external specification.",
+    ),
+    (
         "AXIOM_DECL",
         re.compile(r"\baxiom\s+fn\b"),
         "Introduces an unproved `axiom fn` declaration.",
@@ -52,6 +57,11 @@ FORBIDDEN_PATTERNS: tuple[tuple[str, re.Pattern[str], str], ...] = (
         "Introduces a runtime abort/stub macro (`unimplemented!`, `todo!`, `unreachable!`, `panic!`).",
     ),
 )
+
+# Original stubs whose counts must NOT decrease either (prevents replacing an original
+# `#[verifier::external_body] spec fn { unimplemented!() }` with an invented body).
+_IMMUTABLE_STUB_CODES: frozenset[str] = frozenset({"EXTERNAL_BODY_ATTR", "EXTERNAL_ATTR", "PANIC_STUB"})
+_ALWAYS_IMMUTABLE_KINDS: frozenset[str] = frozenset({"struct", "enum", "type", "const", "trait", "broadcast group"})
 
 # Captures function headers up to the opening `{` or `;`, including spec clauses.
 _FN_HEADER_RE = re.compile(
@@ -212,7 +222,12 @@ def extract_function_headers(stripped_source: str) -> dict[str, list[str]]:
     return headers
 
 
-def verify_candidate(original_source: str, candidate_source: str) -> AntiCheatReport:
+def verify_candidate(
+    original_source: str,
+    candidate_source: str,
+    *,
+    target_function: str | None = None,
+) -> AntiCheatReport:
     """Compare candidate Verus source against original task source for cheating or spec tampering."""
     orig_clean = strip_comments_and_strings(original_source)
     cand_clean = strip_comments_and_strings(candidate_source)
@@ -220,7 +235,7 @@ def verify_candidate(original_source: str, candidate_source: str) -> AntiCheatRe
     violations: list[Violation] = []
 
     # 1. Count-based check on forbidden cheat constructs (allows pre-existing ones in original harness,
-    #    strictly forbids introducing ANY new occurrence).
+    #    strictly forbids introducing ANY new occurrence — and forbids deleting original external/panic stubs).
     for code, pattern, message in FORBIDDEN_PATTERNS:
         orig_count = len(pattern.findall(orig_clean))
         cand_count = len(pattern.findall(cand_clean))
@@ -230,6 +245,14 @@ def verify_candidate(original_source: str, candidate_source: str) -> AntiCheatRe
                     code=code,
                     message=message,
                     detail=f"count increased from {orig_count} to {cand_count}",
+                )
+            )
+        elif code in _IMMUTABLE_STUB_CODES and cand_count < orig_count:
+            violations.append(
+                Violation(
+                    code="STUB_REMOVED",
+                    message=f"Removed pre-existing `{code}` stub from original specification (cannot invent bodies for uninterpreted specs).",
+                    detail=f"count decreased from {orig_count} to {cand_count}",
                 )
             )
 
@@ -249,6 +272,43 @@ def verify_candidate(original_source: str, candidate_source: str) -> AntiCheatRe
                 Violation(
                     code="SPEC_OR_SIGNATURE_MODIFIED",
                     message=f"Original function `{fn_name}` signature or specification clause was altered or removed.",
+                    detail=sample[:180],
+                )
+            )
+
+    # 3. Lynette-grade full-body immutability for all pre-existing spec fns, types/structs/enums/consts/traits,
+    #    and (when target_function is specified) all pre-existing non-target functions.
+    from .slicer import index_verus_items
+
+    orig_items = [it for it in index_verus_items(original_source) if it.kind != "impl"]
+    cand_items = [it for it in index_verus_items(candidate_source) if it.kind != "impl"]
+
+    def _norm_item_body(body: str) -> str:
+        return _normalize_ws(strip_comments_and_strings(body))
+
+    cand_bodies_by_key: dict[tuple[str, str], Counter[str]] = {}
+    for it in cand_items:
+        cand_bodies_by_key.setdefault((it.kind, it.name), Counter())[_norm_item_body(it.body)] += 1
+
+    orig_locked_by_key: dict[tuple[str, str], Counter[str]] = {}
+    for it in orig_items:
+        is_spec_fn = it.kind == "fn" and bool(re.search(r"\bspec\s+fn\b", it.signature))
+        is_locked_non_target_fn = (
+            target_function is not None and it.kind == "fn" and it.name != target_function
+        )
+        if it.kind in _ALWAYS_IMMUTABLE_KINDS or is_spec_fn or is_locked_non_target_fn:
+            orig_locked_by_key.setdefault((it.kind, it.name), Counter())[_norm_item_body(it.body)] += 1
+
+    for key, orig_bag in orig_locked_by_key.items():
+        cand_bag = cand_bodies_by_key.get(key, Counter())
+        missing = orig_bag - cand_bag
+        if missing:
+            kind, name = key
+            sample = next(iter(missing.keys()))
+            violations.append(
+                Violation(
+                    code="SPEC_OR_ITEM_BODY_MODIFIED",
+                    message=f"Pre-existing `{kind} {name}` body was modified or deleted.",
                     detail=sample[:180],
                 )
             )

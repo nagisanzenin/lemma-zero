@@ -53,7 +53,11 @@ def _sbpl_quote(path: Path | str) -> str:
     return str(path).replace("\\", "\\\\").replace('"', '\\"')
 
 
-def build_macos_sandbox_profile(mode: str, own_tmp_dir: Path) -> str:
+def build_macos_sandbox_profile(
+    mode: str,
+    own_tmp_dir: Path,
+    extra_read_paths: tuple[Path, ...] = (),
+) -> str:
     """Build an Apple Seatbelt profile preventing agents from reading runs/, datasets, or sibling tasks."""
     repo = REPO_ROOT.resolve()
     home = Path.home().resolve()
@@ -83,9 +87,10 @@ def build_macos_sandbox_profile(mode: str, own_tmp_dir: Path) -> str:
             ]
         )
 
-    # Block reading any sibling benchmark temp dir (`lz_*`) while explicitly allowing own_tmp.
+    # Block reading any sibling benchmark temp dir (`lz_*`) while explicitly allowing own_tmp and extra_read_paths.
     sibling_regex = f"^{_sbpl_quote(tmp_parent)}/lz_"
     deny_block = "\n    ".join(deny_reads)
+    extra_allows = "".join(f'(allow file-read* (literal "{_sbpl_quote(p.resolve())}"))\n' for p in extra_read_paths)
     return (
         "(version 1)\n"
         "(allow default)\n"
@@ -95,17 +100,25 @@ def build_macos_sandbox_profile(mode: str, own_tmp_dir: Path) -> str:
         f'    (regex #"{sibling_regex}")\n'
         ")\n"
         f'(allow file-read* (subpath "{_sbpl_quote(own_tmp)}"))\n'
+        f"{extra_allows}"
     )
 
 
-def wrap_with_sandbox(cmd: list[str], *, mode: str, own_tmp_dir: Path, enabled: bool = True) -> list[str]:
+def wrap_with_sandbox(
+    cmd: list[str],
+    *,
+    mode: str,
+    own_tmp_dir: Path,
+    extra_read_paths: tuple[Path, ...] = (),
+    enabled: bool = True,
+) -> list[str]:
     """Wrap agent command in OS-level sandbox-exec on macOS to prevent benchmark filesystem leakage."""
     if not enabled or platform.system() != "Darwin":
         return cmd
     sb_bin = shutil.which("sandbox-exec") or ("/usr/bin/sandbox-exec" if Path("/usr/bin/sandbox-exec").is_file() else None)
     if sb_bin is None:
         return cmd
-    return [sb_bin, "-p", build_macos_sandbox_profile(mode, own_tmp_dir), *cmd]
+    return [sb_bin, "-p", build_macos_sandbox_profile(mode, own_tmp_dir, extra_read_paths=extra_read_paths), *cmd]
 
 
 def _load_dotenv_env() -> dict[str, str]:
@@ -148,24 +161,25 @@ def _build_prompt(
         )
     lz_py = REPO_ROOT / "scripts" / "lz.py"
     lz_prefix = f"LEMMA_ZERO_VERUS={shlex.quote(str(verus_bin))} python3 {shlex.quote(str(lz_py))}"
-    skill_path = REPO_ROOT / "skills" / "lemma-zero" / "SKILL.md"
     synth_step = (
         "2. Target is an `exec fn`: keep proofs concise and inline using `proof { ... }` blocks and existing file lemmas "
         "(avoid unnecessary standalone helper `proof fn`s unless a pure math identity needs one).\n"
         if is_exec_fn
         else "2. Target is a `proof fn`: identify the mathematical object (`=~=`, induction, triggers, `by (nonlinear_arith)`/`by (bit_vector)`, `reveal`), "
-        "then draft ALL needed clean helper `proof fn`s + the target proof body in ONE batched edit using scoped `assert(...) by { ... }` blocks.\n"
+        "then write all needed clean helper `proof fn`s + the target body in one batched edit using scoped `assert(...) by { ... }` blocks.\n"
     )
     return (
-        f"Verify `{task_file}` (original: `{orig_file}`, target: `{target_fn}`).\n"
-        "Rules: zero cheats (no assume/admit/external_body/external/axiom/panic), never alter original signatures or requires/ensures. "
-        "Work strictly inside this temporary directory; do NOT search external directories or prior runs.\n"
-        f"1. Inspect `{task_file}` directly (optional fast jump-table for huge files: `{lz_prefix} slice {task_file} --target {target_fn}` or `show --symbol s1,s2`) "
-        f"and diagnose with `{lz_prefix} check {task_file} --original {orig_file} --rlimit 15`.\n"
+        f"Verify `{task_file}` (target function: `{target_fn}`).\n"
+        "Rules: zero cheats (no assume/admit/external_body/external/assume_specification/axiom/panic); never alter original signatures, "
+        "requires/ensures, structs/consts, or pre-existing spec fn bodies (including uninterpreted external_body specs). "
+        "Work strictly on `{task_file}`; do not search external directories.\n"
+        f"1. Read `{task_file}` directly (for huge files you may also jump to the target cone via `{lz_prefix} slice {task_file} --target {target_fn}`) "
+        f"and run `{lz_prefix} check {task_file} --original {orig_file} --target {target_fn} --rlimit 15 --expand-errors`.\n"
+        f"   Need a vstd lemma? Use `{lz_prefix} vstd \"<keywords>\"` (1 instant call instead of grepping `vstd/`).\n"
         f"{synth_step}"
-        f"3. Verify with `{lz_prefix} check {task_file} --original {orig_file} --rlimit 30` "
-        f"(use `--fn {target_fn} --rlimit 20 --timeout 25`, `verify-lemma --fn <helper>`, or `#[verifier::spinoff_prover]` ONLY if verification is slow or hits `RLIMIT_TIMEOUT`/`MISSING_LEMMA`).\n"
-        f"Edit `{task_file}` in place and stop immediately once full-file `check --rlimit 30` prints `VERIFIED` and `anticheat=CLEAN` (full guide if stuck: `{skill_path}`). "
+        f"3. Verify with `{lz_prefix} check {task_file} --original {orig_file} --target {target_fn} --rlimit 30` "
+        f"(use `--fn {target_fn} --expand-errors --rlimit 20 --timeout 25`, `verify-lemma --fn <helper>`, or `#[verifier::spinoff_prover]` ONLY if slow or `RLIMIT_TIMEOUT`).\n"
+        "Edit in place and stop immediately once full-file `check --rlimit 30` prints `VERIFIED` and `anticheat=CLEAN`. "
         "Reply concisely in English with final status."
     )
 
@@ -503,9 +517,12 @@ def run_single_task(
     is_exec_fn = _is_target_exec_fn(orig_src, task_row["target_function"])
 
     t0 = time.monotonic()
-    with tempfile.TemporaryDirectory(prefix=f"lz_{tid[:24]}_") as tmp:
+    with (
+        tempfile.TemporaryDirectory(prefix=f"lz_{tid[:24]}_") as tmp,
+        tempfile.TemporaryDirectory(prefix=f"lz_orig_{tid[:18]}_") as orig_tmp,
+    ):
         tmp_dir = Path(tmp)
-        orig_file = tmp_dir / "original.rs"
+        orig_file = Path(orig_tmp) / "snapshot.rs"
         work_file = tmp_dir / f"{tid}.rs"
         orig_file.write_text(orig_src, encoding="utf-8")
         work_file.write_text(orig_src, encoding="utf-8")
@@ -529,7 +546,8 @@ def run_single_task(
             task_timeout_sec=task_timeout_sec,
             thinking=thinking,
         )
-        cmd = wrap_with_sandbox(cmd, mode=mode, own_tmp_dir=tmp_dir, enabled=True)
+        extra_reads = (orig_file,) if mode == "treatment" else ()
+        cmd = wrap_with_sandbox(cmd, mode=mode, own_tmp_dir=tmp_dir, extra_read_paths=extra_reads, enabled=True)
         sub_env = _load_dotenv_env()
 
         try:
@@ -562,7 +580,7 @@ def run_single_task(
         agent_timed_out = timed_out or ("timeout" in raw_err) or ("timed out" in raw_err)
 
         cand_src = work_file.read_text(encoding="utf-8")
-        ac = verify_candidate(orig_src, cand_src)
+        ac = verify_candidate(orig_src, cand_src, target_function=task_row["target_function"])
 
         if not ac.clean:
             status = "REJECTED_CHEAT"
