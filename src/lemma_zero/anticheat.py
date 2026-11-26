@@ -7,6 +7,7 @@ function signatures and `requires`/`ensures`/`recommends` specifications.
 
 from __future__ import annotations
 
+import difflib
 import re
 from collections import Counter
 from dataclasses import asdict, dataclass
@@ -55,6 +56,11 @@ FORBIDDEN_PATTERNS: tuple[tuple[str, re.Pattern[str], str], ...] = (
         "PANIC_STUB",
         re.compile(r"\b(?:unimplemented|todo|unreachable|panic)\s*!\s*\("),
         "Introduces a runtime abort/stub macro (`unimplemented!`, `todo!`, `unreachable!`, `panic!`).",
+    ),
+    (
+        "CFG_ATTR",
+        re.compile(r"#\s*!?\s*\[\s*cfg(?:_attr)?\s*\("),
+        "Introduces `#[cfg(...)]` or `#[cfg_attr(...)]`, which can smuggle dead-code decoys past static checkers.",
     ),
 )
 
@@ -283,6 +289,32 @@ def verify_candidate(
     orig_items = [it for it in index_verus_items(original_source) if it.kind != "impl"]
     cand_items = [it for it in index_verus_items(candidate_source) if it.kind != "impl"]
 
+    def _resolve_target_fn(items: list[Any], requested: str | None) -> str | None:
+        if requested is None:
+            return None
+        non_spec_fns = [
+            it.name
+            for it in items
+            if it.kind == "fn" and it.name != "main" and not re.search(r"\bspec\s+fn\b", it.signature)
+        ]
+        if requested in non_spec_fns:
+            return requested
+        # Handle upstream benchmark metadata conventions like `impl2_new` -> `new`, `proof_lemma_x` -> `lemma_x`.
+        stripped = re.sub(r"^(?:impl\d*_|proof_)", "", requested)
+        if stripped != requested and stripped in non_spec_fns:
+            return stripped
+        # Handle truncated suffixes like `inflight_walks` -> `next_step_preserves_inv_mapping__inflight_walks`.
+        suffix_hits = [n for n in non_spec_fns if n.endswith(f"__{requested}") or n.endswith(f"_{requested}")]
+        if len(set(suffix_hits)) == 1:
+            return suffix_hits[0]
+        # Handle 1-2 character metadata typos (e.g., `pm14` vs `pml4`, `invariant_` vs `invariants_`, `no_` vs `not_`).
+        close = difflib.get_close_matches(requested, list(dict.fromkeys(non_spec_fns)), n=1, cutoff=0.80)
+        if close:
+            return close[0]
+        return requested
+
+    resolved_target = _resolve_target_fn(orig_items, target_function)
+
     def _norm_item_body(body: str) -> str:
         return _normalize_ws(strip_comments_and_strings(body))
 
@@ -294,7 +326,7 @@ def verify_candidate(
     for it in orig_items:
         is_spec_fn = it.kind == "fn" and bool(re.search(r"\bspec\s+fn\b", it.signature))
         is_locked_non_target_fn = (
-            target_function is not None and it.kind == "fn" and it.name != target_function
+            resolved_target is not None and it.kind == "fn" and it.name != resolved_target
         )
         if it.kind in _ALWAYS_IMMUTABLE_KINDS or is_spec_fn or is_locked_non_target_fn:
             orig_locked_by_key.setdefault((it.kind, it.name), Counter())[_norm_item_body(it.body)] += 1

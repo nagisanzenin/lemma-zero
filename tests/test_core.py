@@ -488,6 +488,56 @@ pub proof fn lemma_gauss_target""",
             ac = verify_candidate(inductive_orig, proved)
             self.assertTrue(ac.clean)
 
+    def test_anticheat_blocks_cfg_decoy_and_resolves_target_typos(self) -> None:
+        orig = """
+use vstd::prelude::*;
+fn main() {}
+verus! {
+pub open spec fn my_spec(x: int) -> bool { x >= 0 }
+pub proof fn lemma_core_mem_pml4(x: int)
+    requires my_spec(x),
+    ensures x >= 0,
+{
+}
+}
+"""
+        # 1. Smuggling a dead-code #[cfg(any())] decoy must be rejected with CFG_ATTR.
+        decoy = orig.replace("x >= 0", "true", 1) + """
+#[cfg(any())]
+impl Dummy {
+    pub open spec fn my_spec(x: int) -> bool { x >= 0 }
+}
+"""
+        rep_decoy = verify_candidate(orig, decoy, target_function="lemma_core_mem_pml4")
+        self.assertFalse(rep_decoy.clean)
+        self.assertIn("CFG_ATTR", {v.code for v in rep_decoy.violations})
+
+        # 2. Metadata typo (`pm14` vs `pml4`) must resolve to the actual target proof fn without false positive.
+        clean_edit = orig.replace("{\n}", "{\n    assert(x >= 0);\n}")
+        rep_typo = verify_candidate(orig, clean_edit, target_function="lemma_core_mem_pm14")
+        self.assertTrue(rep_typo.clean, rep_typo.to_dict())
+
+        # 3. `impl2_new` metadata naming convention must resolve to `fn new` while keeping specs locked.
+        impl_orig = """
+verus! {
+pub open spec fn ok(x: int) -> bool { x > 0 }
+struct S { x: int }
+impl S {
+    pub fn new(x: int) -> (r: Self)
+        requires ok(x),
+    {
+        S { x: 0 }
+    }
+}
+}
+"""
+        impl_ok = impl_orig.replace("S { x: 0 }", "S { x }")
+        self.assertTrue(verify_candidate(impl_orig, impl_ok, target_function="impl2_new").clean)
+        impl_bad_spec = impl_ok.replace("x > 0", "true")
+        rep_bad = verify_candidate(impl_orig, impl_bad_spec, target_function="impl2_new")
+        self.assertFalse(rep_bad.clean)
+        self.assertIn("SPEC_OR_ITEM_BODY_MODIFIED", {v.code for v in rep_bad.violations})
+
 
 if __name__ == "__main__":
     unittest.main()

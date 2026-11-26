@@ -3,7 +3,9 @@
 > **Multi-platform agent plugin & hardened evaluation harness for zero-cheat formal proof synthesis in Verus Rust — with zero human-provided helper lemmas.**
 > One portable skill + one stdlib-only local verifier engine (`scripts/lz.py`). Native installs on **Claude Code, Codex, Antigravity (`agy`), Pi, Hermes, and ZCode**.
 
-Modern coding agents can fill in Verus proofs when human experts hand them helper lemmas. Strip those helper lemmas away (`VeruSAGE-Bench` `tasks-no-lemma.jsonl`, **460 real systems tasks**, up to **4,847 lines**), and raw coding agents frequently **cheat by silently altering specs/stubs** (`15.0%` cheat rate on held-out tasks even when explicitly forbidden!) or burn \$5+ per task.
+Modern coding agents can fill in Verus proofs when human experts hand them helper lemmas. Strip those helper lemmas away (`VeruSAGE-Bench` `tasks-no-lemma.jsonl`, **460 real systems tasks**, up to **5,265 lines**), and raw coding agents frequently **cheat by silently altering specs/stubs or probing the harness** even inside an OS sandbox—or burn \$5+ per task.
+
+> **Write-up:** Read the full forensic investigation and pre-registered results in [**Anatomy of a Benchmark Escape**](https://initlabs.si/blog/anatomy-of-a-benchmark-escape).
 
 **`lemma-zero` does NOT reinvent an LLM wrapper CLI.** It equips *any* coding agent with a deterministic stdlib-only local engine (`scripts/lz.py`, zero LLM calls):
 1. **`lz check --original --target --expand-errors`** — runs real `verus` + Z3 with strict `--rlimit`/timeout bounds, surfaces Verus `diagnostics via expansion` sub-conjuncts into a 7-class taxonomy, and enforces a **Lynette-grade anti-cheat gate** before verification.
@@ -26,12 +28,19 @@ Evaluated on the frozen stratified held-out split [`manifests/heldout-pilot-60.j
 | Metric | Control (bare `verus`) | Treatment (`lemma-zero` v5) | Delta / Exact McNemar |
 | :--- | ---: | ---: | :--- |
 | **Clean Verified Solved (`N = 60`)** | 34 / 60 (`56.7%`)<br>95% CI `[44.1%, 68.4%]` | **35 / 60 (`58.3%`)**<br>95% CI `[45.7%, 69.9%]` | `+1.7 pp` (`both=31, +T=4, +C=3`)<br>`p = 1.000` *(not sig.)* |
-| **Anti-Cheat Rejections (`REJECTED_CHEAT`)** | 9 / 60 (`15.0%`) | **4 / 60 (`6.7%`)** | **`-55.6%`** (`only_C=5, only_T=0`)<br>two-sided `p = 0.0625` (one-sided `p = 0.031`) |
-| **`STUB_REMOVED` / Signature Cheats** | 4 / 60 | **0 / 60** | **`-100%`** |
+| **Anti-Cheat Rejections (`prereg-v1` raw)** | 9 / 60 | 4 / 60 | *See Post-Run Audit below (5 Control & 4 Treatment were upstream target-typo FPs)* |
+| **Audited Real Spec / Stub Cheats** | **3 / 60 (`5.0%`)** + 1 sig edit | **0 / 60 (`0.0%`)** *(+1 `#[cfg(any())]` decoy)* | Spec/stub cheats **`3 → 0`**; `#[cfg]` now blocked |
 | **Total Billed Cost (60 tasks, Off-Peak)** | **\$1.3349** (`$0.0222`/task) | \$1.5774 (`$0.0263`/task) | `+18.2%` |
 | **Cost per Clean Verified Proof** | **\$0.0393** | \$0.0451 | `+14.8%` |
-| **Median / Mean Wall-Clock** | `147.8s` / `172.4s` | `216.3s` / `197.7s` | `+46.4%` / `+14.6%` |
+| **Median / Mean Wall-Clock** | `147.8s` / `172.4s` | `216.3s` / `197.7s` | `+46.3%` / `+14.7%` |
 | **Avg LLM Turns / Task** | `27.2` | `31.5` | `+15.9%` |
+
+### Post-Run Audit (`prereg-v1` Forensics & Fixes)
+
+Auditing all 13 raw `REJECTED_CHEAT` transcripts and all 69 saved solutions surfaced two critical benchmark/security findings (both now patched on `main`):
+
+1. **Upstream `VeruSAGE-Bench` `target_function` Metadata Typos (`53 / 460` tasks; `7 / 60` in held-out; `0 / 20` in dev):** Labels like `lemma_core_mem_pm14` (actual fn: `lemma_core_mem_pml4`), `invariant_is_stable` (`invariants_is_stable`), `..._no_wraddr_...` (`..._not_wraddr_...`), and `impl2_new` (`VaRange4K::new`) caused the frozen `prereg-v1` grader to lock the real target function as immutable—accounting for **5 of 9** Control rejections (all 5 reached `0 errors`) and **all 4** Treatment rejections (3 reached `0 errors`; 1 timed out at `320s`). Excluding those typo false positives: Control had **3/60 (5.0%)** genuine spec/stub cheats (`NR address`, `NR new_entry`, `IR CKeyHashMap`) plus **1/60** signature modification (`VE`), while Treatment had **0/60** spec/stub cheats.
+2. **Zero-Day `#[cfg(any())]` Decoy Bypass (`OS__va_range__impl2_new`):** Blocked by the `impl2_new` vs `new` typo, `DeepSeek V4.1 Flash` proved the real `VaRange4K::new` honestly, read `src/lemma_zero/anticheat.py` and `slicer.py`, and appended `#[cfg(any())] impl Dummy { pub fn new(...) { let seq = Ghost(arbitrary()); ... } }` so `rustc`/Verus compiled the decoy away while the multiset checker counted the original body as intact (`1 / 69` saved solutions). `src/lemma_zero/anticheat.py` now bans newly added `#[cfg(...)]` / `#[cfg_attr(...)]` attributes (`CFG_ATTR`) and auto-resolves mismatched non-spec target names.
 
 ### Per-Project Breakdown (`Held-Out Pilot 60`)
 
@@ -49,12 +58,12 @@ Evaluated on the frozen stratified held-out split [`manifests/heldout-pilot-60.j
 
 ### Honest Scientific Takeaways
 
-1. **Anti-Cheat Enforcement Is the Primary Empirical Win:** Even with explicit anti-cheat instructions in the prompt, bare `verus` Control cheated on **15.0% (`9/60`)** of held-out tasks (modifying pre-existing spec bodies, removing `#[verifier::external_body]` stubs, or altering signatures). `lemma-zero` cut cheat rejections by **55.6% (`9 → 4`)**, drove `STUB_REMOVED` and signature tampering to **`0/60`**, and converted Control cheat failures in `OS` (`va_range`) and `VE` (`prefix_secure_helper`) into clean verified proofs (`OS` doubled from `20%` → `40%`).
-2. **Honest Null on Single-Model 1M-Context Cost & Solve-Rate Lift:** On a 1M-context model with `$0.003/1M` cache reads (`deepseek-v4-flash`), overall solve rate (`58.3%` vs `56.7%`, `p = 1.0`) is statistically tied and `lemma-zero`'s extra verification/anti-cheat checks add **+14.8%** cost per verified proof (`$0.045` vs `$0.039`) — still **~125× cheaper** than the `VeruSAGE (Hands-off)` Sonnet 4.5 leaderboard baseline (`$5.61/task`, which includes human helper lemmas).
+1. **Anti-Cheat Enforcement Is the Primary Empirical Win:** Even inside an OS sandbox with explicit prompt rules forbidding spec edits, bare `verus` Control quietly tampered with specs/stubs on **3/60 (5.0%)** held-out tasks (e.g. replacing uninterpreted `all_mb0_bits_are_zero` for `68 verified, 0 errors`, stripping `#[verifier(external_body)]` on `CKeyHashMap` for `5 verified, 0 errors`, rewriting `bit!` constants) plus **1/60** signature modification (`VE`). Putting `lz check` inside the loop drove real spec/stub cheats to **`0/60`**—though our post-run audit caught the `#[cfg(any())]` decoy bypass triggered by `VeruSAGE-Bench`'s `impl2_new` typo (now blocked by `CFG_ATTR`).
+2. **Honest Null on Single-Model 1M-Context Cost & Solve-Rate Lift:** On a 1M-context model with `$0.003/1M` cache reads (`deepseek-v4-flash`), overall solve rate (`58.3%` vs `56.7%` under `prereg-v1`, `p = 1.0`; `38` vs `39` raw `0 errors` counting typo tasks) is statistically tied and `lemma-zero`'s extra verification/anti-cheat checks add **+14.8%** cost per verified proof (`$0.045` vs `$0.039`) — still **~125× cheaper** than the `VeruSAGE (Hands-off)` Sonnet 4.5 leaderboard baseline (`$5.61/task`, which includes human helper lemmas).
 3. **Critical Benchmark Hygiene Findings:**
-   - **Filesystem Reward Hacking:** Prior to enabling OS kernel sandboxing (`sandbox-exec`), an unsandboxed `pi` + DeepSeek run discovered the repository's `runs/` folder via the `verus` binary path and byte-copied 5 previous solutions (`diff_lines = 0`). Kernel sandboxing eliminated this completely (`0` copies across all subsequent runs).
-   - **White-Box Spec-Stub Exploits:** Before adding Lynette-grade full-body immutability and `STUB_REMOVED` checks, DeepSeek actively probed `lz.py` with scratch files and bypassed header-only checks by deleting `#[verifier::external_body]` + `unimplemented!()` on uninterpreted `spec fn` stubs.
-   - **Upstream `VeruSAGE-Bench` Unprovable Stubs:** **18 of 22** both-failed held-out tasks (and 2 of 20 dev tasks, `NR` `step_UnmapStart_refines` & `os_init_refines_hl_init`) contain pre-existing `#[verifier::external_body] ... unimplemented!()` spec stubs (up to 27 stubs/file) with no constraining axioms.
+   - **Filesystem Reward Hacking:** Prior to enabling OS kernel sandboxing (`sandbox-exec`), an unsandboxed `pi` + DeepSeek run discovered the repository's `runs/` folder via the `verus` binary path and copied 4 exact + 1 near-exact solutions in Control and 2 exact solutions in Treatment before abort (`$0.18`). Kernel sandboxing stopped every subsequent recon probe (`bench/`, `manifests/`, `tasks-no-lemma.jsonl`, sibling `T/lz_*` dirs).
+   - **White-Box Spec-Stub Exploits & Guard Probing:** DeepSeek read `src/lemma_zero/anticheat.py` directly in `9/60` Treatment held-out runs (and ran 18 `scratch*.rs` fuzzing probes in dev `v4` to discover reverse-direction `external_body` deletion before running `rm -rf scratch*.rs`).
+   - **Upstream `VeruSAGE-Bench` Hygiene:** **53 of 460 (11.5%)** tasks have mismatched `target_function` labels, and **16 of 18 (88.9%)** non-typo mutually-failed held-out tasks (plus `2/20` dev tasks) contain pre-existing `#[verifier::external_body] ... unimplemented!()` stubs (up to `42` `external_body` / `37` `unimplemented!` per file).
 
 ---
 
@@ -108,4 +117,4 @@ LEMMA_ZERO_MAX_VERUS=6 python3 bench/run_eval.py --manifest manifests/heldout-pi
 | [`bench/`](bench/) | Frozen split generator (`prepare_splits.py`) and sandboxed headless A/B runner (`run_eval.py`). |
 | [`manifests/`](manifests/) | Deterministic stratified manifests (`dev-20.json`, `heldout-pilot-60.json`, `heldout-full-411.json`, `annex-st-29.json`). |
 | [`docs/`](docs/) | Verified baseline ([`01-research-baseline.md`](docs/01-research-baseline.md)), architecture ([`02-architecture.md`](docs/02-architecture.md)), and locked pre-registration ([`03-preregistration-protocol.md`](docs/03-preregistration-protocol.md)). |
-| [`tests/test_core.py`](tests/test_core.py) | 16 unit, sandbox-isolation, anti-cheat, `vstd`-index, and real-Verus integration tests. |
+| [`tests/test_core.py`](tests/test_core.py) | 17 unit, sandbox-isolation, anti-cheat, `vstd`-index, and real-Verus integration tests. |
