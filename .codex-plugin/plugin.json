@@ -1,0 +1,10 @@
+{
+  "name": "lemma-zero",
+  "version": "0.1.0",
+  "description": "Math-first formal proof synthesis plugin for Verus Rust systems without human helper lemmas. Pairs a portable agent skill with a zero-dependency local verifier engine (spec slicer, structured Verus/Z3 error parser, bottom-up single-lemma verifier, strict anti-cheat gate, and exact cost ledger).",
+  "author": { "name": "Quan Duong" },
+  "homepage": "https://github.com/nagisanzenin/lemma-zero",
+  "keywords": ["verus", "rust", "formal-verification", "smt", "z3", "math-first", "proof-synthesis", "agent-skills", "skills"],
+  "skills": "./skills/",
+  "interface": { "displayName": "Lemma Zero", "category": "development" }
+}

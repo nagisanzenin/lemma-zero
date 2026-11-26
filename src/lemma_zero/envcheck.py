@@ -8,11 +8,17 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-TOOLS = ("rustc", "cargo", "verus", "z3", "python3", "uv", "docker", "gh")
+from .verus_runner import find_verus_binary
+
+TOOLS = ("rustc", "cargo", "verus", "python3", "uv", "claude", "codex", "pi", "hermes", "gh")
 
 
 def _tool_version(cmd: str) -> str | None:
-    path = shutil.which(cmd)
+    if cmd == "verus":
+        found = find_verus_binary()
+        path = str(found) if found else None
+    else:
+        path = shutil.which(cmd)
     if path is None:
         return None
     try:
@@ -23,7 +29,11 @@ def _tool_version(cmd: str) -> str | None:
             timeout=5,
             check=False,
         )
-        out = (proc.stdout or proc.stderr).strip().splitlines()
+        out = [line.strip() for line in (proc.stdout or proc.stderr).strip().splitlines() if line.strip()]
+        if cmd == "verus":
+            for line in out:
+                if line.lower().startswith("version:"):
+                    return f"Verus {line.split(':', 1)[1].strip()} ({path})"
         return out[0] if out else path
     except Exception:
         return path

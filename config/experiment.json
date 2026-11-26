@@ -8,9 +8,10 @@
     "require_anticheat_pass": true
   },
   "verus": {
-    "binary": "verus",
+    "binary": "vendor/verus-arm64-macos/verus",
     "pinned_benchmark_commit": "ddc66116aa7a844a9e19cc50922fe85c84b8b4a5",
-    "default_args": ["--crate-type=lib", "--expand-errors"],
+    "pinned_release_tag": "release/0.2025.09.12.bb1f342",
+    "required_rust_toolchain": "1.88.0-aarch64-apple-darwin",
     "rlimit": 30,
     "timeout_seconds": 60
   },

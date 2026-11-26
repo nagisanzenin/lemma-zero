@@ -1,0 +1,178 @@
+{
+  "split": "dev",
+  "seed": 20261126,
+  "source_sha256": "dd3b18cb90a20e6b80bcf47cd88d439ed0309a952ff1fd4090148cf98cdae878",
+  "count": 20,
+  "by_project": {
+    "AC": 3,
+    "AL": 3,
+    "IR": 2,
+    "MA": 2,
+    "NO": 1,
+    "NR": 5,
+    "OS": 3,
+    "VE": 1
+  },
+  "tasks": [
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_invariants__proof__lemma_eventually_always_vrs_in_ongoing_reconciles_does_not_have_deletion_timestamp",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_eventually_always_vrs_in_ongoing_reconciles_does_not_have_deletion_timestamp",
+      "lines": 4120,
+      "chars": 149328
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_list_pods_resp_to_send_create_pod_req",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_list_pods_resp_to_send_create_pod_req",
+      "lines": 4847,
+      "chars": 180223
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__stable_spec_and_assumption_and_invariants_of_all_phases_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "stable_spec_and_assumption_and_invariants_of_all_phases_is_stable",
+      "lines": 4841,
+      "chars": 185900
+    },
+    {
+      "task_id": "AL__seq_unequal_preserved_by_add_auto",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "seq_unequal_preserved_by_add_auto",
+      "lines": 13,
+      "chars": 203
+    },
+    {
+      "task_id": "AL__strengthen_next",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "strengthen_next",
+      "lines": 97,
+      "chars": 2431
+    },
+    {
+      "task_id": "AL__tla_forall_implies_equality1",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_forall_implies_equality1",
+      "lines": 69,
+      "chars": 1775
+    },
+    {
+      "task_id": "IR__delegation_map_v__impl4__almost_all_keys_agree",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "almost_all_keys_agree",
+      "lines": 241,
+      "chars": 6573
+    },
+    {
+      "task_id": "IR__verus_extra__map_finite",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "map_finite",
+      "lines": 38,
+      "chars": 711
+    },
+    {
+      "task_id": "MA__bin_sizes__bin_size_result_mul8",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "bin_size_result_mul8",
+      "lines": 96,
+      "chars": 2181
+    },
+    {
+      "task_id": "MA__bin_sizes__pow2_subtracts",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "pow2_subtracts",
+      "lines": 25,
+      "chars": 326
+    },
+    {
+      "task_id": "NO__spec__utils__seq_to_set_equal_rec",
+      "project": "NO",
+      "project_name": "Node-Replication",
+      "target_function": "seq_to_set_equal_rec",
+      "lines": 39,
+      "chars": 747
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_of_entry_key_between",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_of_entry_key_between",
+      "lines": 272,
+      "chars": 7967
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__os_init_refines_hl_init",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "os_init_refines_hl_init",
+      "lines": 673,
+      "chars": 21519
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__step_UnmapStart_refines",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "step_UnmapStart_refines",
+      "lines": 2387,
+      "chars": 86130
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_step_Writeback_preserves_writer_mem",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_step_Writeback_preserves_writer_mem",
+      "lines": 322,
+      "chars": 9409
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_step_writenonpos_invalid_walk_unchanged",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_step_writenonpos_invalid_walk_unchanged",
+      "lines": 791,
+      "chars": 25488
+    },
+    {
+      "task_id": "OS__pagetable__pagetable_impl_base__impl0__map_2m_page",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "map_2m_page",
+      "lines": 1310,
+      "chars": 53656
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__new_proc_preserve_tree_inv_2",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_proc_preserve_tree_inv_2",
+      "lines": 455,
+      "chars": 18104
+    },
+    {
+      "task_id": "OS__slinkedlist__spec_impl_u__impl2__remove_helper4",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_helper4",
+      "lines": 373,
+      "chars": 12199
+    },
+    {
+      "task_id": "VE__regular__repetition__impl5__lemma_spec_serialize_max_length_2",
+      "project": "VE",
+      "project_name": "Vest",
+      "target_function": "lemma_spec_serialize_max_length_2",
+      "lines": 117,
+      "chars": 3113
+    }
+  ]
+}

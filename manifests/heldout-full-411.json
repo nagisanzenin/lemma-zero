@@ -1,0 +1,3306 @@
+{
+  "split": "heldout_full",
+  "seed": 20261126,
+  "source_sha256": "dd3b18cb90a20e6b80bcf47cd88d439ed0309a952ff1fd4090148cf98cdae878",
+  "count": 411,
+  "by_project": {
+    "AC": 55,
+    "AL": 80,
+    "IR": 28,
+    "MA": 45,
+    "NO": 4,
+    "NR": 128,
+    "OS": 68,
+    "VE": 3
+  },
+  "tasks": [
+    {
+      "task_id": "AC__vreplicaset_controller__proof__guarantee__guarantee_condition_holds",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "guarantee_condition_holds",
+      "lines": 4237,
+      "chars": 155265
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_invariants__proof__lemma_always_each_vrs_in_reconcile_implies_filtered_pods_owned_by_vrs",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_always_each_vrs_in_reconcile_implies_filtered_pods_owned_by_vrs",
+      "lines": 4466,
+      "chars": 164412
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_invariants__proof__lemma_always_every_msg_from_vrs_controller_carries_vrs_key",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_always_every_msg_from_vrs_controller_carries_vrs_key",
+      "lines": 4192,
+      "chars": 151460
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_invariants__proof__lemma_always_there_is_no_request_msg_to_external_from_controller",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_always_there_is_no_request_msg_to_external_from_controller",
+      "lines": 4194,
+      "chars": 151568
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_invariants__proof__lemma_always_vrs_reconcile_request_only_interferes_with_itself",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_always_vrs_reconcile_request_only_interferes_with_itself",
+      "lines": 4435,
+      "chars": 162601
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_invariants__proof__lemma_eventually_always_garbage_collector_does_not_delete_vrs_pods",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_eventually_always_garbage_collector_does_not_delete_vrs_pods",
+      "lines": 4507,
+      "chars": 164871
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_invariants__proof__lemma_eventually_always_no_other_pending_request_interferes_with_vrs_reconcile",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_eventually_always_no_other_pending_request_interferes_with_vrs_reconcile",
+      "lines": 4966,
+      "chars": 184467
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_invariants__proof__lemma_eventually_always_no_pending_interfering_update_request",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_eventually_always_no_pending_interfering_update_request",
+      "lines": 4468,
+      "chars": 162850
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_invariants__proof__lemma_eventually_always_no_pending_mutation_request_not_from_controller_on_pods",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_eventually_always_no_pending_mutation_request_not_from_controller_on_pods",
+      "lines": 4452,
+      "chars": 162517
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_invariants__proof__lemma_eventually_always_vrs_in_schedule_does_not_have_deletion_timestamp",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_eventually_always_vrs_in_schedule_does_not_have_deletion_timestamp",
+      "lines": 3820,
+      "chars": 137032
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__helper_lemmas__vrs_rely_condition_equivalent_to_lifted_vrs_rely_condition",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "vrs_rely_condition_equivalent_to_lifted_vrs_rely_condition",
+      "lines": 856,
+      "chars": 23653
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__api_actions__lemma_api_request_other_than_pending_req_msg_maintains_matching_pods",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_api_request_other_than_pending_req_msg_maintains_matching_pods",
+      "lines": 3869,
+      "chars": 141879
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__api_actions__lemma_create_matching_pod_request_adds_matching_pod_and_returns_ok",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_create_matching_pod_request_adds_matching_pod_and_returns_ok",
+      "lines": 4036,
+      "chars": 147583
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__api_actions__lemma_get_then_delete_matching_pod_request_deletes_matching_pod_and_returns_ok",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_get_then_delete_matching_pod_request_deletes_matching_pod_and_returns_ok",
+      "lines": 3970,
+      "chars": 145531
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__api_actions__lemma_list_pods_request_returns_ok_list_resp_containing_matching_pods",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_list_pods_request_returns_ok_list_resp_containing_matching_pods",
+      "lines": 3715,
+      "chars": 135104
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__proof__eventually_stable_reconciliation_holds",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "eventually_stable_reconciliation_holds",
+      "lines": 4286,
+      "chars": 158352
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__proof__eventually_stable_reconciliation_holds_per_cr",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "eventually_stable_reconciliation_holds_per_cr",
+      "lines": 5265,
+      "chars": 203762
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__proof__lemma_from_reconcile_idle_to_scheduled",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_reconcile_idle_to_scheduled",
+      "lines": 4123,
+      "chars": 149393
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__proof__lemma_from_scheduled_to_init_step",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_scheduled_to_init_step",
+      "lines": 4245,
+      "chars": 154944
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__proof__spec_before_phase_n_entails_true_leads_to_current_state_matches",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "spec_before_phase_n_entails_true_leads_to_current_state_matches",
+      "lines": 5195,
+      "chars": 200437
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__proof_lemma_true_leads_to_always_current_state_matches",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "proof_lemma_true_leads_to_always_current_state_matches",
+      "lines": 5225,
+      "chars": 201987
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_create_pod_resp_to_receive_create_pod_resp",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_create_pod_resp_to_receive_create_pod_resp",
+      "lines": 4753,
+      "chars": 177480
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_delete_pod_resp_to_receive_delete_pod_resp",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_delete_pod_resp_to_receive_delete_pod_resp",
+      "lines": 4817,
+      "chars": 180449
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_list_pods_resp_to_done",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_list_pods_resp_to_done",
+      "lines": 4816,
+      "chars": 179373
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_list_pods_resp_to_receive_create_pod_resp",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_list_pods_resp_to_receive_create_pod_resp",
+      "lines": 4834,
+      "chars": 180852
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_list_pods_resp_to_receive_delete_pod_resp",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_list_pods_resp_to_receive_delete_pod_resp",
+      "lines": 4880,
+      "chars": 183429
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_list_pods_resp_to_send_delete_pod_req",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_list_pods_resp_to_send_delete_pod_req",
+      "lines": 4877,
+      "chars": 181897
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_ok_resp_at_after_create_pod_step_to_done",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_ok_resp_at_after_create_pod_step_to_done",
+      "lines": 4813,
+      "chars": 178430
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_ok_resp_at_after_delete_pod_step_to_done",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_ok_resp_at_after_delete_pod_step_to_done",
+      "lines": 4827,
+      "chars": 179428
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_ok_resp_to_send_create_pod_req",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_ok_resp_to_send_create_pod_req",
+      "lines": 4816,
+      "chars": 178486
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_receive_ok_resp_to_send_delete_pod_req",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_receive_ok_resp_to_send_delete_pod_req",
+      "lines": 4857,
+      "chars": 180951
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_send_create_pod_req_to_receive_ok_resp",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_send_create_pod_req_to_receive_ok_resp",
+      "lines": 4814,
+      "chars": 178341
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_send_delete_pod_req_to_receive_ok_resp",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_send_delete_pod_req_to_receive_ok_resp",
+      "lines": 4832,
+      "chars": 179754
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_after_send_list_pods_req_to_receive_list_pods_resp",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_send_list_pods_req_to_receive_list_pods_resp",
+      "lines": 4800,
+      "chars": 177853
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_diff_and_init_to_current_state_matches",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_diff_and_init_to_current_state_matches",
+      "lines": 4975,
+      "chars": 186366
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__resource_match__lemma_from_init_step_to_send_list_pods_req",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_init_step_to_send_list_pods_req",
+      "lines": 4797,
+      "chars": 177457
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__assumption_and_invariants_of_all_phases_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "assumption_and_invariants_of_all_phases_is_stable",
+      "lines": 4752,
+      "chars": 181641
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__derived_invariants_since_beginning_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "derived_invariants_since_beginning_is_stable",
+      "lines": 2143,
+      "chars": 70757
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__invariant_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "invariant_is_stable",
+      "lines": 4292,
+      "chars": 159738
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__invariant_since_phase_i_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "invariant_since_phase_i_is_stable",
+      "lines": 769,
+      "chars": 19555
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__invariant_since_phase_ii_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "invariant_since_phase_ii_is_stable",
+      "lines": 847,
+      "chars": 23364
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__invariant_since_phase_iii_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "invariant_since_phase_iii_is_stable",
+      "lines": 1069,
+      "chars": 28928
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__invariant_since_phase_iv_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "invariant_since_phase_iv_is_stable",
+      "lines": 823,
+      "chars": 20338
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__invariant_since_phase_v_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "invariant_since_phase_v_is_stable",
+      "lines": 944,
+      "chars": 26486
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__next_with_wf_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "next_with_wf_is_stable",
+      "lines": 3535,
+      "chars": 128437
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__spec_and_invariants_entails_stable_spec_and_invariants",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "spec_and_invariants_entails_stable_spec_and_invariants",
+      "lines": 4448,
+      "chars": 167855
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__spec_entails_all_invariants",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "spec_entails_all_invariants",
+      "lines": 4726,
+      "chars": 176898
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__spec_of_previous_phases_entails_eventually_new_invariants",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "spec_of_previous_phases_entails_eventually_new_invariants",
+      "lines": 5213,
+      "chars": 200374
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__spec__stable_spec_is_stable",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "stable_spec_is_stable",
+      "lines": 3803,
+      "chars": 138446
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__terminate__lemma_from_after_create_or_delete_pod_rank_zero_to_reconcile_idle",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_create_or_delete_pod_rank_zero_to_reconcile_idle",
+      "lines": 4432,
+      "chars": 162087
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__terminate__lemma_from_after_create_pod_rank_n_to_create_pod_rank_n_minus_1",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_create_pod_rank_n_to_create_pod_rank_n_minus_1",
+      "lines": 4423,
+      "chars": 160834
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__terminate__lemma_from_after_delete_pod_rank_n_to_delete_pod_rank_n_minus_1",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_delete_pod_rank_n_to_delete_pod_rank_n_minus_1",
+      "lines": 4425,
+      "chars": 160825
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__terminate__lemma_from_after_list_pods_to_reconcile_idle",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "lemma_from_after_list_pods_to_reconcile_idle",
+      "lines": 4424,
+      "chars": 161527
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__terminate__reconcile_eventually_terminates",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "reconcile_eventually_terminates",
+      "lines": 4363,
+      "chars": 159387
+    },
+    {
+      "task_id": "AC__vreplicaset_controller__proof__liveness__terminate__reconcile_eventually_terminates_on_vrs_object",
+      "project": "AC",
+      "project_name": "Anvil-Advanced",
+      "target_function": "reconcile_eventually_terminates_on_vrs_object",
+      "lines": 4481,
+      "chars": 163409
+    },
+    {
+      "task_id": "AL__a_to_temp_pred_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "a_to_temp_pred_equality",
+      "lines": 54,
+      "chars": 1119
+    },
+    {
+      "task_id": "AL__always_and_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_and_equality",
+      "lines": 72,
+      "chars": 1554
+    },
+    {
+      "task_id": "AL__always_distributed_by_and",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_distributed_by_and",
+      "lines": 69,
+      "chars": 1470
+    },
+    {
+      "task_id": "AL__always_double",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_double",
+      "lines": 58,
+      "chars": 1051
+    },
+    {
+      "task_id": "AL__always_double_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_double_equality",
+      "lines": 68,
+      "chars": 1372
+    },
+    {
+      "task_id": "AL__always_implies_forall_intro",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_implies_forall_intro",
+      "lines": 73,
+      "chars": 1736
+    },
+    {
+      "task_id": "AL__always_implies_preserved_by_always",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_implies_preserved_by_always",
+      "lines": 69,
+      "chars": 1492
+    },
+    {
+      "task_id": "AL__always_implies_to_leads_to",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_implies_to_leads_to",
+      "lines": 78,
+      "chars": 1753
+    },
+    {
+      "task_id": "AL__always_lift_action_unfold",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_lift_action_unfold",
+      "lines": 71,
+      "chars": 1478
+    },
+    {
+      "task_id": "AL__always_lift_state_unfold",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_lift_state_unfold",
+      "lines": 67,
+      "chars": 1343
+    },
+    {
+      "task_id": "AL__always_p_is_stable",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_p_is_stable",
+      "lines": 68,
+      "chars": 1429
+    },
+    {
+      "task_id": "AL__always_p_or_eventually_q",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_p_or_eventually_q",
+      "lines": 82,
+      "chars": 2125
+    },
+    {
+      "task_id": "AL__always_p_or_eventually_q_rec",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_p_or_eventually_q_rec",
+      "lines": 51,
+      "chars": 1096
+    },
+    {
+      "task_id": "AL__always_propagate_forwards",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_propagate_forwards",
+      "lines": 56,
+      "chars": 1071
+    },
+    {
+      "task_id": "AL__always_tla_forall_apply",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_tla_forall_apply",
+      "lines": 72,
+      "chars": 1674
+    },
+    {
+      "task_id": "AL__always_to_always_later",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_to_always_later",
+      "lines": 72,
+      "chars": 1577
+    },
+    {
+      "task_id": "AL__always_to_current",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_to_current",
+      "lines": 56,
+      "chars": 1037
+    },
+    {
+      "task_id": "AL__always_weaken",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "always_weaken",
+      "lines": 70,
+      "chars": 1469
+    },
+    {
+      "task_id": "AL__eliminate_always",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "eliminate_always",
+      "lines": 69,
+      "chars": 1412
+    },
+    {
+      "task_id": "AL__entails_and_different_temp",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "entails_and_different_temp",
+      "lines": 60,
+      "chars": 1299
+    },
+    {
+      "task_id": "AL__entails_and_temp",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "entails_and_temp",
+      "lines": 60,
+      "chars": 1254
+    },
+    {
+      "task_id": "AL__entails_apply",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "entails_apply",
+      "lines": 56,
+      "chars": 1091
+    },
+    {
+      "task_id": "AL__entails_implies_leads_to",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "entails_implies_leads_to",
+      "lines": 77,
+      "chars": 1728
+    },
+    {
+      "task_id": "AL__entails_preserved_by_always",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "entails_preserved_by_always",
+      "lines": 70,
+      "chars": 1423
+    },
+    {
+      "task_id": "AL__entails_trans",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "entails_trans",
+      "lines": 56,
+      "chars": 1081
+    },
+    {
+      "task_id": "AL__eventually_propagate_backwards",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "eventually_propagate_backwards",
+      "lines": 63,
+      "chars": 1320
+    },
+    {
+      "task_id": "AL__filtered_size_is_one_means_only_one_such_value",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "filtered_size_is_one_means_only_one_such_value",
+      "lines": 20,
+      "chars": 485
+    },
+    {
+      "task_id": "AL__filtered_size_is_zero_means_no_such_value",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "filtered_size_is_zero_means_no_such_value",
+      "lines": 13,
+      "chars": 258
+    },
+    {
+      "task_id": "AL__finite_set_to_seq_contains_all_set_elements",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "finite_set_to_seq_contains_all_set_elements",
+      "lines": 14,
+      "chars": 240
+    },
+    {
+      "task_id": "AL__implies_apply_with_always",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "implies_apply_with_always",
+      "lines": 63,
+      "chars": 1281
+    },
+    {
+      "task_id": "AL__init_invariant",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "init_invariant",
+      "lines": 94,
+      "chars": 2228
+    },
+    {
+      "task_id": "AL__leads_to_always_combine",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_always_combine",
+      "lines": 92,
+      "chars": 2285
+    },
+    {
+      "task_id": "AL__leads_to_always_enhance",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_always_enhance",
+      "lines": 91,
+      "chars": 2255
+    },
+    {
+      "task_id": "AL__leads_to_always_tla_forall",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_always_tla_forall",
+      "lines": 93,
+      "chars": 2408
+    },
+    {
+      "task_id": "AL__leads_to_apply",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_apply",
+      "lines": 79,
+      "chars": 1766
+    },
+    {
+      "task_id": "AL__leads_to_by_borrowing_inv",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_by_borrowing_inv",
+      "lines": 84,
+      "chars": 1973
+    },
+    {
+      "task_id": "AL__leads_to_exists_intro",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_exists_intro",
+      "lines": 85,
+      "chars": 2202
+    },
+    {
+      "task_id": "AL__leads_to_framed_by_or",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_framed_by_or",
+      "lines": 88,
+      "chars": 2150
+    },
+    {
+      "task_id": "AL__leads_to_rank_step_one",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_rank_step_one",
+      "lines": 78,
+      "chars": 1853
+    },
+    {
+      "task_id": "AL__leads_to_rank_step_one_help",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_rank_step_one_help",
+      "lines": 78,
+      "chars": 1835
+    },
+    {
+      "task_id": "AL__leads_to_rank_step_one_usize",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_rank_step_one_usize",
+      "lines": 77,
+      "chars": 1866
+    },
+    {
+      "task_id": "AL__leads_to_rank_step_one_usize_help",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_rank_step_one_usize_help",
+      "lines": 78,
+      "chars": 1849
+    },
+    {
+      "task_id": "AL__leads_to_self_temp",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_self_temp",
+      "lines": 72,
+      "chars": 1553
+    },
+    {
+      "task_id": "AL__leads_to_shortcut_temp",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_shortcut_temp",
+      "lines": 83,
+      "chars": 1986
+    },
+    {
+      "task_id": "AL__leads_to_stable",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_stable",
+      "lines": 95,
+      "chars": 2394
+    },
+    {
+      "task_id": "AL__leads_to_trans",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_trans",
+      "lines": 86,
+      "chars": 2026
+    },
+    {
+      "task_id": "AL__leads_to_weaken",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "leads_to_weaken",
+      "lines": 80,
+      "chars": 1874
+    },
+    {
+      "task_id": "AL__map_values_to_set_eq_to_set_mk_map_values",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "map_values_to_set_eq_to_set_mk_map_values",
+      "lines": 13,
+      "chars": 222
+    },
+    {
+      "task_id": "AL__next_preserves_inv_rec",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "next_preserves_inv_rec",
+      "lines": 49,
+      "chars": 1002
+    },
+    {
+      "task_id": "AL__not_eventually_by_always_not",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "not_eventually_by_always_not",
+      "lines": 65,
+      "chars": 1382
+    },
+    {
+      "task_id": "AL__or_leads_to_combine",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "or_leads_to_combine",
+      "lines": 83,
+      "chars": 1955
+    },
+    {
+      "task_id": "AL__p_and_always_p_equals_always_p",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "p_and_always_p_equals_always_p",
+      "lines": 72,
+      "chars": 1530
+    },
+    {
+      "task_id": "AL__p_leads_to_q_is_stable",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "p_leads_to_q_is_stable",
+      "lines": 77,
+      "chars": 1752
+    },
+    {
+      "task_id": "AL__pack_conditions_to_spec",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "pack_conditions_to_spec",
+      "lines": 81,
+      "chars": 1931
+    },
+    {
+      "task_id": "AL__seq_filter_contains_implies_seq_contains",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "seq_filter_contains_implies_seq_contains",
+      "lines": 16,
+      "chars": 342
+    },
+    {
+      "task_id": "AL__seq_pred_false_on_all_elements_is_equivalent_to_empty_filter",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "seq_pred_false_on_all_elements_is_equivalent_to_empty_filter",
+      "lines": 13,
+      "chars": 265
+    },
+    {
+      "task_id": "AL__simplify_predicate",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "simplify_predicate",
+      "lines": 58,
+      "chars": 1192
+    },
+    {
+      "task_id": "AL__spec_entails_always_tla_forall",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "spec_entails_always_tla_forall",
+      "lines": 73,
+      "chars": 1699
+    },
+    {
+      "task_id": "AL__spec_entails_tla_forall",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "spec_entails_tla_forall",
+      "lines": 59,
+      "chars": 1322
+    },
+    {
+      "task_id": "AL__stable_and_temp",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "stable_and_temp",
+      "lines": 75,
+      "chars": 1657
+    },
+    {
+      "task_id": "AL__temp_pred_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "temp_pred_equality",
+      "lines": 60,
+      "chars": 1198
+    },
+    {
+      "task_id": "AL__tla_exists_and_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_exists_and_equality",
+      "lines": 68,
+      "chars": 1682
+    },
+    {
+      "task_id": "AL__tla_exists_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_exists_equality",
+      "lines": 72,
+      "chars": 1565
+    },
+    {
+      "task_id": "AL__tla_exists_implies_equality1",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_exists_implies_equality1",
+      "lines": 65,
+      "chars": 1580
+    },
+    {
+      "task_id": "AL__tla_exists_or_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_exists_or_equality",
+      "lines": 68,
+      "chars": 1678
+    },
+    {
+      "task_id": "AL__tla_forall_always_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_forall_always_equality",
+      "lines": 72,
+      "chars": 1633
+    },
+    {
+      "task_id": "AL__tla_forall_always_equality_variant",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_forall_always_equality_variant",
+      "lines": 72,
+      "chars": 1835
+    },
+    {
+      "task_id": "AL__tla_forall_always_implies_equality2",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_forall_always_implies_equality2",
+      "lines": 72,
+      "chars": 1676
+    },
+    {
+      "task_id": "AL__tla_forall_and_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_forall_and_equality",
+      "lines": 61,
+      "chars": 1434
+    },
+    {
+      "task_id": "AL__tla_forall_implies_equality2",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_forall_implies_equality2",
+      "lines": 65,
+      "chars": 1580
+    },
+    {
+      "task_id": "AL__tla_forall_leads_to_equality1",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_forall_leads_to_equality1",
+      "lines": 84,
+      "chars": 2142
+    },
+    {
+      "task_id": "AL__tla_forall_not_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_forall_not_equality",
+      "lines": 65,
+      "chars": 1592
+    },
+    {
+      "task_id": "AL__tla_forall_or_equality",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "tla_forall_or_equality",
+      "lines": 61,
+      "chars": 1430
+    },
+    {
+      "task_id": "AL__transform_leads_to_with_until",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "transform_leads_to_with_until",
+      "lines": 100,
+      "chars": 2639
+    },
+    {
+      "task_id": "AL__true_pred_on_seq_implies_true_pred_on_filtered_seq",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "true_pred_on_seq_implies_true_pred_on_filtered_seq",
+      "lines": 14,
+      "chars": 316
+    },
+    {
+      "task_id": "AL__unpack_conditions_from_spec",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "unpack_conditions_from_spec",
+      "lines": 87,
+      "chars": 2127
+    },
+    {
+      "task_id": "AL__use_tla_forall",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "use_tla_forall",
+      "lines": 59,
+      "chars": 1294
+    },
+    {
+      "task_id": "AL__vacuous_leads_to",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "vacuous_leads_to",
+      "lines": 106,
+      "chars": 2500
+    },
+    {
+      "task_id": "AL__wf1",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "wf1",
+      "lines": 123,
+      "chars": 3424
+    },
+    {
+      "task_id": "AL__wf1_variant_temp",
+      "project": "AL",
+      "project_name": "Anvil-Library",
+      "target_function": "wf1_variant_temp",
+      "lines": 101,
+      "chars": 2661
+    },
+    {
+      "task_id": "IR__delegation_map_v__impl3__erase",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "erase",
+      "lines": 289,
+      "chars": 7912
+    },
+    {
+      "task_id": "IR__delegation_map_v__impl3__set",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "set",
+      "lines": 228,
+      "chars": 6260
+    },
+    {
+      "task_id": "IR__delegation_map_v__impl4__all_keys_agree",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "all_keys_agree",
+      "lines": 202,
+      "chars": 5022
+    },
+    {
+      "task_id": "IR__delegation_map_v__impl4__range_consistent_impl",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "range_consistent_impl",
+      "lines": 365,
+      "chars": 10707
+    },
+    {
+      "task_id": "IR__delegation_map_v__impl4__set",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "set",
+      "lines": 361,
+      "chars": 10430
+    },
+    {
+      "task_id": "IR__host_impl_v__impl2__deliver_packet_seq",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "deliver_packet_seq",
+      "lines": 817,
+      "chars": 26009
+    },
+    {
+      "task_id": "IR__host_impl_v__impl2__host_model_next_delegate",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "host_model_next_delegate",
+      "lines": 1197,
+      "chars": 37380
+    },
+    {
+      "task_id": "IR__host_impl_v__impl2__host_model_next_set_request",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "host_model_next_set_request",
+      "lines": 1283,
+      "chars": 40125
+    },
+    {
+      "task_id": "IR__host_impl_v__impl2__host_model_next_shard",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "host_model_next_shard",
+      "lines": 1402,
+      "chars": 43780
+    },
+    {
+      "task_id": "IR__host_impl_v__impl2__host_model_receive_packet",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "host_model_receive_packet",
+      "lines": 1117,
+      "chars": 34657
+    },
+    {
+      "task_id": "IR__host_impl_v__impl2__host_noreceive_noclock_next",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "host_noreceive_noclock_next",
+      "lines": 2042,
+      "chars": 62315
+    },
+    {
+      "task_id": "IR__host_impl_v__impl2__receive_packet_next",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "receive_packet_next",
+      "lines": 2061,
+      "chars": 64062
+    },
+    {
+      "task_id": "IR__marshal_ironsht_specific_v__lemma_is_marshalable_CKeyHashMap",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "lemma_is_marshalable_CKeyHashMap",
+      "lines": 219,
+      "chars": 6340
+    },
+    {
+      "task_id": "IR__marshal_v__impl4__deserialize",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "deserialize",
+      "lines": 162,
+      "chars": 4517
+    },
+    {
+      "task_id": "IR__marshal_v__impl4__is_marshalable",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "is_marshalable",
+      "lines": 138,
+      "chars": 3475
+    },
+    {
+      "task_id": "IR__marshal_v__impl4__lemma_same_views_serialize_the_same",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "lemma_same_views_serialize_the_same",
+      "lines": 114,
+      "chars": 3035
+    },
+    {
+      "task_id": "IR__marshal_v__impl4__lemma_serialization_is_not_a_prefix_of",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "lemma_serialization_is_not_a_prefix_of",
+      "lines": 164,
+      "chars": 4541
+    },
+    {
+      "task_id": "IR__marshal_v__impl4__serialize",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "serialize",
+      "lines": 105,
+      "chars": 2708
+    },
+    {
+      "task_id": "IR__marshal_v__impl4__serialized_size",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "serialized_size",
+      "lines": 95,
+      "chars": 2427
+    },
+    {
+      "task_id": "IR__single_delivery_model_v__impl2__retransmit_un_acked_packets",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "retransmit_un_acked_packets",
+      "lines": 726,
+      "chars": 23014
+    },
+    {
+      "task_id": "IR__single_delivery_model_v__impl2__retransmit_un_acked_packets_for_dst",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "retransmit_un_acked_packets_for_dst",
+      "lines": 729,
+      "chars": 22664
+    },
+    {
+      "task_id": "IR__single_delivery_model_v__impl2__send_single_cmessage",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "send_single_cmessage",
+      "lines": 975,
+      "chars": 30109
+    },
+    {
+      "task_id": "IR__single_delivery_model_v__same_view_same_marshalable",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "same_view_same_marshalable",
+      "lines": 452,
+      "chars": 15116
+    },
+    {
+      "task_id": "IR__single_delivery_state_v__impl0__truncate",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "truncate",
+      "lines": 596,
+      "chars": 19872
+    },
+    {
+      "task_id": "IR__verus_extra__lemma_seq_fold_left_append_len_int_le",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "lemma_seq_fold_left_append_len_int_le",
+      "lines": 24,
+      "chars": 501
+    },
+    {
+      "task_id": "IR__verus_extra__lemma_to_set_union_auto",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "lemma_to_set_union_auto",
+      "lines": 12,
+      "chars": 209
+    },
+    {
+      "task_id": "IR__verus_extra__map_set_finite_auto",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "map_set_finite_auto",
+      "lines": 12,
+      "chars": 208
+    },
+    {
+      "task_id": "IR__verus_extra__set_map_union_auto",
+      "project": "IR",
+      "project_name": "IronKV",
+      "target_function": "set_map_union_auto",
+      "lines": 13,
+      "chars": 239
+    },
+    {
+      "task_id": "MA__bin_sizes__bin_size_result",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "bin_size_result",
+      "lines": 95,
+      "chars": 2116
+    },
+    {
+      "task_id": "MA__bin_sizes__bounds_for_smallest_bin_fitting_size",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "bounds_for_smallest_bin_fitting_size",
+      "lines": 95,
+      "chars": 2113
+    },
+    {
+      "task_id": "MA__bin_sizes__different_bin_size",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "different_bin_size",
+      "lines": 59,
+      "chars": 1228
+    },
+    {
+      "task_id": "MA__bin_sizes__idx_in_range_has_bin_size",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "idx_in_range_has_bin_size",
+      "lines": 114,
+      "chars": 2526
+    },
+    {
+      "task_id": "MA__bin_sizes__idx_out_of_range_has_different_bin_size",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "idx_out_of_range_has_different_bin_size",
+      "lines": 115,
+      "chars": 2546
+    },
+    {
+      "task_id": "MA__bin_sizes__leading_zeros_between",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "leading_zeros_between",
+      "lines": 33,
+      "chars": 514
+    },
+    {
+      "task_id": "MA__bin_sizes__leading_zeros_powers_of_2",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "leading_zeros_powers_of_2",
+      "lines": 46,
+      "chars": 642
+    },
+    {
+      "task_id": "MA__bin_sizes__out_of_small_range",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "out_of_small_range",
+      "lines": 73,
+      "chars": 1577
+    },
+    {
+      "task_id": "MA__bin_sizes__pfd_lower_le_upper",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "pfd_lower_le_upper",
+      "lines": 73,
+      "chars": 1499
+    },
+    {
+      "task_id": "MA__bin_sizes__pow2_properties",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "pow2_properties",
+      "lines": 28,
+      "chars": 577
+    },
+    {
+      "task_id": "MA__bin_sizes__result2_idx_in_range_has_bin_size",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "result2_idx_in_range_has_bin_size",
+      "lines": 144,
+      "chars": 3666
+    },
+    {
+      "task_id": "MA__bin_sizes__result2_idx_out_of_range_has_different_bin_size",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "result2_idx_out_of_range_has_different_bin_size",
+      "lines": 144,
+      "chars": 3833
+    },
+    {
+      "task_id": "MA__bin_sizes__size_gt_8_implies_idx_gt_1",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "size_gt_8_implies_idx_gt_1",
+      "lines": 55,
+      "chars": 1136
+    },
+    {
+      "task_id": "MA__bin_sizes__size_le_8_implies_idx_eq_1",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "size_le_8_implies_idx_eq_1",
+      "lines": 55,
+      "chars": 1166
+    },
+    {
+      "task_id": "MA__bin_sizes__size_of_bin_bounds",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "size_of_bin_bounds",
+      "lines": 56,
+      "chars": 1139
+    },
+    {
+      "task_id": "MA__bin_sizes__size_of_bin_bounds_not_huge",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "size_of_bin_bounds_not_huge",
+      "lines": 54,
+      "chars": 1131
+    },
+    {
+      "task_id": "MA__bin_sizes__size_of_bin_mult_word_size",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "size_of_bin_mult_word_size",
+      "lines": 53,
+      "chars": 1085
+    },
+    {
+      "task_id": "MA__bin_sizes__smallest_bin_fitting_size_size_of_bin",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "smallest_bin_fitting_size_size_of_bin",
+      "lines": 93,
+      "chars": 2068
+    },
+    {
+      "task_id": "MA__bin_sizes__valid_sbin_idx_smallest_sbin_fitting_size",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "valid_sbin_idx_smallest_sbin_fitting_size",
+      "lines": 67,
+      "chars": 1328
+    },
+    {
+      "task_id": "MA__commit_mask__impl__all_set",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "all_set",
+      "lines": 44,
+      "chars": 882
+    },
+    {
+      "task_id": "MA__commit_mask__impl__any_set",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "any_set",
+      "lines": 44,
+      "chars": 893
+    },
+    {
+      "task_id": "MA__commit_mask__impl__clear",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "clear",
+      "lines": 44,
+      "chars": 859
+    },
+    {
+      "task_id": "MA__commit_mask__impl__create",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "create",
+      "lines": 88,
+      "chars": 2201
+    },
+    {
+      "task_id": "MA__commit_mask__impl__create_empty",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "create_empty",
+      "lines": 42,
+      "chars": 746
+    },
+    {
+      "task_id": "MA__commit_mask__impl__create_full",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "create_full",
+      "lines": 60,
+      "chars": 1214
+    },
+    {
+      "task_id": "MA__commit_mask__impl__create_intersect",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "create_intersect",
+      "lines": 40,
+      "chars": 826
+    },
+    {
+      "task_id": "MA__commit_mask__impl__empty",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "empty",
+      "lines": 37,
+      "chars": 703
+    },
+    {
+      "task_id": "MA__commit_mask__impl__is_empty",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "is_empty",
+      "lines": 45,
+      "chars": 859
+    },
+    {
+      "task_id": "MA__commit_mask__impl__is_full",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "is_full",
+      "lines": 64,
+      "chars": 1294
+    },
+    {
+      "task_id": "MA__commit_mask__impl__lemma_change_one_entry",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "lemma_change_one_entry",
+      "lines": 41,
+      "chars": 962
+    },
+    {
+      "task_id": "MA__commit_mask__impl__set",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "set",
+      "lines": 41,
+      "chars": 822
+    },
+    {
+      "task_id": "MA__commit_mask__lemma_map_distribute_auto",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "lemma_map_distribute_auto",
+      "lines": 14,
+      "chars": 221
+    },
+    {
+      "task_id": "MA__commit_mask__lemma_obtain_bit_index_1",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "lemma_obtain_bit_index_1",
+      "lines": 33,
+      "chars": 525
+    },
+    {
+      "task_id": "MA__commit_mask__lemma_obtain_bit_index_2",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "lemma_obtain_bit_index_2",
+      "lines": 25,
+      "chars": 402
+    },
+    {
+      "task_id": "MA__commit_mask__lemma_obtain_bit_index_3",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "lemma_obtain_bit_index_3",
+      "lines": 26,
+      "chars": 439
+    },
+    {
+      "task_id": "MA__layout__bitand_with_mask_gives_rounding",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "bitand_with_mask_gives_rounding",
+      "lines": 15,
+      "chars": 201
+    },
+    {
+      "task_id": "MA__layout__block_ptr_aligned_to_word",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "block_ptr_aligned_to_word",
+      "lines": 183,
+      "chars": 4841
+    },
+    {
+      "task_id": "MA__layout__impl__align_down",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "align_down",
+      "lines": 28,
+      "chars": 435
+    },
+    {
+      "task_id": "MA__layout__impl__align_up",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "align_up",
+      "lines": 29,
+      "chars": 489
+    },
+    {
+      "task_id": "MA__layout__is_block_ptr_mult4",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "is_block_ptr_mult4",
+      "lines": 179,
+      "chars": 4765
+    },
+    {
+      "task_id": "MA__pigeonhole__nat_set_size",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "nat_set_size",
+      "lines": 22,
+      "chars": 339
+    },
+    {
+      "task_id": "MA__pigeonhole__pigeonhole_missing_idx_implies_double",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "pigeonhole_missing_idx_implies_double",
+      "lines": 30,
+      "chars": 624
+    },
+    {
+      "task_id": "MA__pigeonhole__pigeonhole_missing_idx_implies_double_helper",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "pigeonhole_missing_idx_implies_double_helper",
+      "lines": 35,
+      "chars": 945
+    },
+    {
+      "task_id": "MA__pigeonhole__pigeonhole_too_many_elements_implies_double",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "pigeonhole_too_many_elements_implies_double",
+      "lines": 26,
+      "chars": 543
+    },
+    {
+      "task_id": "MA__pigeonhole__set_mismatch",
+      "project": "MA",
+      "project_name": "Memory-Allocator",
+      "target_function": "set_mismatch",
+      "lines": 22,
+      "chars": 348
+    },
+    {
+      "task_id": "NO__spec__unbounded_log__combiner_request_ids_finite",
+      "project": "NO",
+      "project_name": "Node-Replication",
+      "target_function": "combiner_request_ids_finite",
+      "lines": 86,
+      "chars": 2393
+    },
+    {
+      "task_id": "NO__spec__unbounded_log__element_outside_set",
+      "project": "NO",
+      "project_name": "Node-Replication",
+      "target_function": "element_outside_set",
+      "lines": 15,
+      "chars": 243
+    },
+    {
+      "task_id": "NO__spec__unbounded_log__get_fresh_nat_not_in",
+      "project": "NO",
+      "project_name": "Node-Replication",
+      "target_function": "get_fresh_nat_not_in",
+      "lines": 102,
+      "chars": 2940
+    },
+    {
+      "task_id": "NO__spec__utils__seq_to_set_is_finite",
+      "project": "NO",
+      "project_name": "Node-Replication",
+      "target_function": "seq_to_set_is_finite",
+      "lines": 40,
+      "chars": 738
+    },
+    {
+      "task_id": "NR__definitions_u__impl2__entry_base",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "entry_base",
+      "lines": 140,
+      "chars": 3457
+    },
+    {
+      "task_id": "NR__definitions_u__impl2__next_entry_base",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_entry_base",
+      "lines": 145,
+      "chars": 3533
+    },
+    {
+      "task_id": "NR__definitions_u__impl3__lemma_entry_sizes_aligned",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_entry_sizes_aligned",
+      "lines": 88,
+      "chars": 2058
+    },
+    {
+      "task_id": "NR__definitions_u__impl3__lemma_entry_sizes_aligned_auto",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_entry_sizes_aligned_auto",
+      "lines": 87,
+      "chars": 2053
+    },
+    {
+      "task_id": "NR__extra__aligned_transitive",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "aligned_transitive",
+      "lines": 26,
+      "chars": 362
+    },
+    {
+      "task_id": "NR__extra__aligned_transitive_auto",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "aligned_transitive_auto",
+      "lines": 20,
+      "chars": 340
+    },
+    {
+      "task_id": "NR__impl_u__indexing__lemma_entry_base_from_index",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_entry_base_from_index",
+      "lines": 45,
+      "chars": 1938
+    },
+    {
+      "task_id": "NR__impl_u__indexing__lemma_entry_base_from_index_support",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_entry_base_from_index_support",
+      "lines": 28,
+      "chars": 633
+    },
+    {
+      "task_id": "NR__impl_u__indexing__lemma_index_from_base_and_addr",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_index_from_base_and_addr",
+      "lines": 55,
+      "chars": 1495
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_empty_implies_interp_empty",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_empty_implies_interp_empty",
+      "lines": 262,
+      "chars": 7518
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_entries_interp_equal_implies_interp_equal",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_entries_interp_equal_implies_interp_equal",
+      "lines": 261,
+      "chars": 7651
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_entries_interp_insert_implies_interp_aux_insert",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_entries_interp_insert_implies_interp_aux_insert",
+      "lines": 264,
+      "chars": 7963
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_entries_interp_insert_implies_interp_insert",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_entries_interp_insert_implies_interp_insert",
+      "lines": 263,
+      "chars": 7913
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_entries_interp_remove_implies_interp_aux_remove",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_entries_interp_remove_implies_interp_aux_remove",
+      "lines": 283,
+      "chars": 8755
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_aux_between",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_aux_between",
+      "lines": 284,
+      "chars": 8455
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_contains_implies_interp_of_entry_contains",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_contains_implies_interp_of_entry_contains",
+      "lines": 258,
+      "chars": 7635
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_entries_insert_implies_interp_insert",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_entries_insert_implies_interp_insert",
+      "lines": 267,
+      "chars": 7813
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_entries_remove_implies_interp_remove",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_entries_remove_implies_interp_remove",
+      "lines": 279,
+      "chars": 8421
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_of_entry_between",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_of_entry_between",
+      "lines": 290,
+      "chars": 8716
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_of_entry_contains_mapping_implies_interp_aux_contains_mapping",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_of_entry_contains_mapping_implies_interp_aux_contains_mapping",
+      "lines": 274,
+      "chars": 8375
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_of_entry_contains_mapping_implies_interp_contains_mapping",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_of_entry_contains_mapping_implies_interp_contains_mapping",
+      "lines": 258,
+      "chars": 7744
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_of_entry_disjoint_mappings",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_of_entry_disjoint_mappings",
+      "lines": 272,
+      "chars": 8336
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_of_entry_insert_implies_interp_aux_insert",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_of_entry_insert_implies_interp_aux_insert",
+      "lines": 296,
+      "chars": 8738
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_of_entry_insert_implies_interp_insert",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_of_entry_insert_implies_interp_insert",
+      "lines": 266,
+      "chars": 7796
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_interp_of_entry_insert_page_implies_interp_insert_page",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interp_of_entry_insert_page_implies_interp_insert_page",
+      "lines": 269,
+      "chars": 7895
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_new_empty_dir",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_new_empty_dir",
+      "lines": 253,
+      "chars": 7501
+    },
+    {
+      "task_id": "NR__impl_u__l1__impl2__lemma_nonempty_implies_interp_contains",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_nonempty_implies_interp_contains",
+      "lines": 284,
+      "chars": 8243
+    },
+    {
+      "task_id": "NR__impl_u__l2_impl__impl0__address",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "address",
+      "lines": 261,
+      "chars": 8773
+    },
+    {
+      "task_id": "NR__impl_u__l2_impl__impl0__lemma_new_entry_mb0_bits_are_zero",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_new_entry_mb0_bits_are_zero",
+      "lines": 219,
+      "chars": 6728
+    },
+    {
+      "task_id": "NR__impl_u__l2_impl__impl0__lemma_zero_entry_facts",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_zero_entry_facts",
+      "lines": 276,
+      "chars": 9411
+    },
+    {
+      "task_id": "NR__impl_u__l2_impl__impl0__new_entry",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "new_entry",
+      "lines": 297,
+      "chars": 10419
+    },
+    {
+      "task_id": "NR__impl_u__l2_impl__lemma_aligned_addr_mask_facts",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_aligned_addr_mask_facts",
+      "lines": 120,
+      "chars": 3785
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__bounds_applied_mappings",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "bounds_applied_mappings",
+      "lines": 2079,
+      "chars": 75404
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__extra_mappings_inserted",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "extra_mappings_inserted",
+      "lines": 2071,
+      "chars": 74792
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__extra_mappings_preserved",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "extra_mappings_preserved",
+      "lines": 2110,
+      "chars": 76232
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__extra_mappings_preserved_effective_mapping_inserted",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "extra_mappings_preserved_effective_mapping_inserted",
+      "lines": 2112,
+      "chars": 76569
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__extra_mappings_preserved_effective_mapping_removed",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "extra_mappings_preserved_effective_mapping_removed",
+      "lines": 2120,
+      "chars": 76661
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__extra_mappings_removed",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "extra_mappings_removed",
+      "lines": 2117,
+      "chars": 76550
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__extra_mappings_submap",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "extra_mappings_submap",
+      "lines": 2114,
+      "chars": 76374
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__lemma_effective_mappings_unaffected_if_thread_state_constant",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_effective_mappings_unaffected_if_thread_state_constant",
+      "lines": 2207,
+      "chars": 75180
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__lemma_inflight_vaddr_implies_hl_unmap_or_map",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_inflight_vaddr_implies_hl_unmap_or_map",
+      "lines": 850,
+      "chars": 27634
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__lemma_map_soundness_equality",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_map_soundness_equality",
+      "lines": 1060,
+      "chars": 34831
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__lemma_unmap_soundness_equality",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_unmap_soundness_equality",
+      "lines": 992,
+      "chars": 32338
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__next_step_refines_hl_next_step",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_refines_hl_next_step",
+      "lines": 3887,
+      "chars": 139742
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__no_overlaps_applied_mappings",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "no_overlaps_applied_mappings",
+      "lines": 2100,
+      "chars": 75660
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__no_overlaps_interp_pt_mem",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "no_overlaps_interp_pt_mem",
+      "lines": 2025,
+      "chars": 72595
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__no_overlaps_pmem_applied_mappings",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "no_overlaps_pmem_applied_mappings",
+      "lines": 2100,
+      "chars": 75452
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__os_next_refines_hl_next",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "os_next_refines_hl_next",
+      "lines": 3876,
+      "chars": 138103
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__relevant_mem_preserved",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "relevant_mem_preserved",
+      "lines": 2249,
+      "chars": 81800
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__step_MapEnd_refines",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "step_MapEnd_refines",
+      "lines": 2426,
+      "chars": 86135
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__step_MapOpChange_refines",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "step_MapOpChange_refines",
+      "lines": 2889,
+      "chars": 101795
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__step_MapStart_refines",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "step_MapStart_refines",
+      "lines": 2474,
+      "chars": 89395
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__step_MemOp_refines",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "step_MemOp_refines",
+      "lines": 3030,
+      "chars": 108072
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__step_UnmapEnd_refines",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "step_UnmapEnd_refines",
+      "lines": 2448,
+      "chars": 86915
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__step_UnmapOpChange_refines",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "step_UnmapOpChange_refines",
+      "lines": 2871,
+      "chars": 101055
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__unmap_vaddr_set_le_extra_mappings_dom",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "unmap_vaddr_set_le_extra_mappings_dom",
+      "lines": 2075,
+      "chars": 74900
+    },
+    {
+      "task_id": "NR__impl_u__os_refinement__vaddr_mapping_is_being_modified_from_vaddr_unmap",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "vaddr_mapping_is_being_modified_from_vaddr_unmap",
+      "lines": 2298,
+      "chars": 83327
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl1__lemma_interps_match",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interps_match",
+      "lines": 1014,
+      "chars": 33878
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl1__lemma_interps_match_aux1",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interps_match_aux1",
+      "lines": 1117,
+      "chars": 37710
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl1__lemma_interps_match_aux2",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_interps_match_aux2",
+      "lines": 1079,
+      "chars": 37029
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl2__allocate",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "allocate",
+      "lines": 3255,
+      "chars": 114569
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl2__finish_map_and_release_lock",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "finish_map_and_release_lock",
+      "lines": 3733,
+      "chars": 130467
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl2__read",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "read",
+      "lines": 3608,
+      "chars": 126766
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl2__register_failed_map",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "register_failed_map",
+      "lines": 3259,
+      "chars": 114772
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl2__write_change",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "write_change",
+      "lines": 3851,
+      "chars": 134872
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl2__write_stutter",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "write_stutter",
+      "lines": 3831,
+      "chars": 134182
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl3__finish_unmap_and_release_lock",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "finish_unmap_and_release_lock",
+      "lines": 4123,
+      "chars": 143387
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl3_read",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "impl3_read",
+      "lines": 3620,
+      "chars": 126761
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl3_write_change",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "impl3_write_change",
+      "lines": 3802,
+      "chars": 132752
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__impl3_write_stutter",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "impl3_write_stutter",
+      "lines": 3773,
+      "chars": 131482
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__start_map_and_acquire_lock",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "start_map_and_acquire_lock",
+      "lines": 3253,
+      "chars": 114347
+    },
+    {
+      "task_id": "NR__impl_u__wrapped_token__start_unmap_and_acquire_lock",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "start_unmap_and_acquire_lock",
+      "lines": 3260,
+      "chars": 114798
+    },
+    {
+      "task_id": "NR__spec_t__hlproof__map_end_preserves_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "map_end_preserves_inv",
+      "lines": 225,
+      "chars": 6544
+    },
+    {
+      "task_id": "NR__spec_t__hlproof__map_start_preserves_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "map_start_preserves_inv",
+      "lines": 441,
+      "chars": 13358
+    },
+    {
+      "task_id": "NR__spec_t__hlproof__unmap_start_preserves_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "unmap_start_preserves_inv",
+      "lines": 367,
+      "chars": 10986
+    },
+    {
+      "task_id": "NR__spec_t__hlspec__next_step_preserves_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_preserves_inv",
+      "lines": 713,
+      "chars": 23714
+    },
+    {
+      "task_id": "NR__spec_t__mmu__pt_mem__impl0__lemma_write_seq_idle",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_write_seq_idle",
+      "lines": 42,
+      "chars": 876
+    },
+    {
+      "task_id": "NR__spec_t__mmu__pt_mem__impl0__lemma_write_seq_push",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_write_seq_push",
+      "lines": 40,
+      "chars": 885
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_core_mem_pm14",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_core_mem_pm14",
+      "lines": 187,
+      "chars": 5246
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_invalid_walk_is_invalid_in_writer_mem",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_invalid_walk_is_invalid_in_writer_mem",
+      "lines": 645,
+      "chars": 20567
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_iter_walk_result_vbase_equal",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_iter_walk_result_vbase_equal",
+      "lines": 240,
+      "chars": 7799
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_iter_walk_result_vbase_equal_aux1",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_iter_walk_result_vbase_equal_aux1",
+      "lines": 481,
+      "chars": 15515
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_iter_walk_result_vbase_equal_aux2",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_iter_walk_result_vbase_equal_aux2",
+      "lines": 485,
+      "chars": 15543
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_mem_view_after_step_write",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_mem_view_after_step_write",
+      "lines": 453,
+      "chars": 14279
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_pt_walk_result_vaddr_indexing_bits_match",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_pt_walk_result_vaddr_indexing_bits_match",
+      "lines": 504,
+      "chars": 16744
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_pt_walk_result_vbase_equal",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_pt_walk_result_vbase_equal",
+      "lines": 519,
+      "chars": 17124
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_pt_walk_with_indexing_bits_match",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_pt_walk_with_indexing_bits_match",
+      "lines": 500,
+      "chars": 16808
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_step_WriteNonpos_post_valid_pt_walk_no_wraddr_in_path",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_step_WriteNonpos_post_valid_pt_walk_no_wraddr_in_path",
+      "lines": 1134,
+      "chars": 36576
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_step_Writeback_post_valid_pt_walk_not_wraddr_in_path",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_step_Writeback_post_valid_pt_walk_not_wraddr_in_path",
+      "lines": 726,
+      "chars": 23174
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_step_Writeback_post_valid_walk_unchanged",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_step_Writeback_post_valid_walk_unchanged",
+      "lines": 698,
+      "chars": 21896
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_step_writeback_invalid_walk_unchanged",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_step_writeback_invalid_walk_unchanged",
+      "lines": 693,
+      "chars": 21907
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_step_writenonneg_new_walk_has_pending_map",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_step_writenonneg_new_walk_has_pending_map",
+      "lines": 787,
+      "chars": 24961
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_step_writenonneg_path_addrs_match",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_step_writenonneg_path_addrs_match",
+      "lines": 793,
+      "chars": 25569
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_step_writenonneg_valid_walk_unchanged",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_step_writenonneg_valid_walk_unchanged",
+      "lines": 792,
+      "chars": 25467
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_unmapping__pt_walk_valid_in_post_unchanged",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "pt_walk_valid_in_post_unchanged",
+      "lines": 1138,
+      "chars": 36756
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_valid_implies_equal_reads",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_valid_implies_equal_reads",
+      "lines": 305,
+      "chars": 9310
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_valid_implies_equal_walks",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_valid_implies_equal_walks",
+      "lines": 678,
+      "chars": 21730
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_valid_not_pending_implies_equal",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_valid_not_pending_implies_equal",
+      "lines": 695,
+      "chars": 22650
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__lemma_writer_read_from_sbuf",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_writer_read_from_sbuf",
+      "lines": 333,
+      "chars": 9983
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_preserves_inv",
+      "lines": 1399,
+      "chars": 48473
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv_mapping__inflight_walks",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "inflight_walks",
+      "lines": 1200,
+      "chars": 38773
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv_mapping__pending_map_is_base_walk",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "pending_map_is_base_walk",
+      "lines": 1139,
+      "chars": 36955
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv_mapping__valid_is_not_in_sbuf",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "valid_is_not_in_sbuf",
+      "lines": 914,
+      "chars": 28807
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv_mapping__valid_not_pending_is_not_in_sbuf",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "valid_not_pending_is_not_in_sbuf",
+      "lines": 1164,
+      "chars": 37763
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv_sbuf_facts",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_preserves_inv_sbuf_facts",
+      "lines": 1324,
+      "chars": 44478
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv_unmapping",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_preserves_inv_unmapping",
+      "lines": 1421,
+      "chars": 49062
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv_unmapping__core_vs_writer_reads",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "core_vs_writer_reads",
+      "lines": 927,
+      "chars": 29381
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv_unmapping__inflight_walks",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "inflight_walks",
+      "lines": 1359,
+      "chars": 46480
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv_unmapping__notin_nonpos",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "notin_nonpos",
+      "lines": 1282,
+      "chars": 42795
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__next_step_preserves_inv_unmapping__valid_walk",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "valid_walk",
+      "lines": 1187,
+      "chars": 38552
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__step_WriteNonpos_preserves_inv_unmapping__inflight_walks",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "inflight_walks",
+      "lines": 1312,
+      "chars": 43478
+    },
+    {
+      "task_id": "NR__spec_t__mmu__rl2__step_Writeback_preserves_inv_unmapping__inflight_walks",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "inflight_walks",
+      "lines": 1311,
+      "chars": 43898
+    },
+    {
+      "task_id": "NR__spec_t__os_code_vc__lemma_concurrent_trs",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_concurrent_trs",
+      "lines": 3525,
+      "chars": 127829
+    },
+    {
+      "task_id": "NR__spec_t__os_code_vc__lemma_concurrent_trs_during_shootdown",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_concurrent_trs_during_shootdown",
+      "lines": 3468,
+      "chars": 124430
+    },
+    {
+      "task_id": "NR__spec_t__os_code_vc__lemma_concurrent_trs_no_lock",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_concurrent_trs_no_lock",
+      "lines": 3417,
+      "chars": 121338
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__init_implies_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "init_implies_inv",
+      "lines": 2236,
+      "chars": 82900
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__init_implies_tlb_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "init_implies_tlb_inv",
+      "lines": 715,
+      "chars": 23040
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__lemma_init_implies_empty_map",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_init_implies_empty_map",
+      "lines": 849,
+      "chars": 26086
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__lemma_map_insert_values_equality",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma_map_insert_values_equality",
+      "lines": 18,
+      "chars": 325
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__next_preserves_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_preserves_inv",
+      "lines": 2968,
+      "chars": 106091
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__next_step_preserves_inv_allocated_mem",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_preserves_inv_allocated_mem",
+      "lines": 3486,
+      "chars": 124940
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__next_step_preserves_inv_basic",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_preserves_inv_basic",
+      "lines": 3361,
+      "chars": 119403
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__next_step_preserves_inv_mmu",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_preserves_inv_mmu",
+      "lines": 3351,
+      "chars": 119064
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__next_step_preserves_inv_shootdown",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_preserves_inv_shootdown",
+      "lines": 3352,
+      "chars": 119457
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__next_step_preserves_overlap_mem_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_preserves_overlap_mem_inv",
+      "lines": 3070,
+      "chars": 104320
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__next_step_preserves_tlb_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "next_step_preserves_tlb_inv",
+      "lines": 3197,
+      "chars": 111358
+    },
+    {
+      "task_id": "NR__spec_t__os_invariant__step_MapNoOp_and_step_MapOpChange_preserves_overlap_mem_inv",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "step_MapNoOp_and_step_MapOpChange_preserves_overlap_mem_inv",
+      "lines": 3144,
+      "chars": 110319
+    },
+    {
+      "task_id": "NR__theorem__lemma1_init",
+      "project": "NR",
+      "project_name": "NRKernel",
+      "target_function": "lemma1_init",
+      "lines": 2465,
+      "chars": 91980
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl1__pages_with_mappings_are_mapped",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "pages_with_mappings_are_mapped",
+      "lines": 834,
+      "chars": 33831
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__add_io_mapping_4k",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "add_io_mapping_4k",
+      "lines": 1019,
+      "chars": 42450
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__add_mapping_4k",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "add_mapping_4k",
+      "lines": 1025,
+      "chars": 42580
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__alloc_and_map_2m",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "alloc_and_map_2m",
+      "lines": 1181,
+      "chars": 49660
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__alloc_and_map_4k",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "alloc_and_map_4k",
+      "lines": 1206,
+      "chars": 51044
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__alloc_and_map_io_4k",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "alloc_and_map_io_4k",
+      "lines": 1210,
+      "chars": 51227
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__alloc_page_2m",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "alloc_page_2m",
+      "lines": 972,
+      "chars": 39486
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__alloc_page_4k",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "alloc_page_4k",
+      "lines": 982,
+      "chars": 40261
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__alloc_page_4k_for_new_container",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "alloc_page_4k_for_new_container",
+      "lines": 989,
+      "chars": 40442
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__free_page_4k",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "free_page_4k",
+      "lines": 1035,
+      "chars": 42898
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__merged_4k_to_2m",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "merged_4k_to_2m",
+      "lines": 1025,
+      "chars": 40523
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__remove_io_mapping_4k_helper1",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_io_mapping_4k_helper1",
+      "lines": 1102,
+      "chars": 46833
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__remove_mapping_4k_helper1",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_mapping_4k_helper1",
+      "lines": 1103,
+      "chars": 46819
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__remove_mapping_4k_helper2",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_mapping_4k_helper2",
+      "lines": 1188,
+      "chars": 50319
+    },
+    {
+      "task_id": "OS__allocator__page_allocator_spec_impl__impl2__remove_mapping_4k_helper3",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_mapping_4k_helper3",
+      "lines": 988,
+      "chars": 40953
+    },
+    {
+      "task_id": "OS__kernel__create_and_map_pages__impl0__range_alloc_and_map",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "range_alloc_and_map",
+      "lines": 2742,
+      "chars": 104044
+    },
+    {
+      "task_id": "OS__kernel__create_and_map_pages__impl0__range_alloc_and_map_io",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "range_alloc_and_map_io",
+      "lines": 2633,
+      "chars": 97850
+    },
+    {
+      "task_id": "OS__kernel__mem_util__impl0__create_entry",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "create_entry",
+      "lines": 3541,
+      "chars": 136389
+    },
+    {
+      "task_id": "OS__kernel__mem_util__impl0__create_iommu_table_entry",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "create_iommu_table_entry",
+      "lines": 3575,
+      "chars": 137589
+    },
+    {
+      "task_id": "OS__kernel__syscall_new_container__impl0__syscall_new_container_with_endpoint",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "syscall_new_container_with_endpoint",
+      "lines": 3395,
+      "chars": 132946
+    },
+    {
+      "task_id": "OS__kernel__syscall_new_proc__impl0__syscall_new_proc_with_endpoint",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "syscall_new_proc_with_endpoint",
+      "lines": 3208,
+      "chars": 122339
+    },
+    {
+      "task_id": "OS__kernel__syscall_new_proc_with_iommu__impl0__syscall_new_proc_with_endpoint_iommu",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "syscall_new_proc_with_endpoint_iommu",
+      "lines": 3009,
+      "chars": 113356
+    },
+    {
+      "task_id": "OS__memory_manager__spec_impl__impl0__alloc_iommu_table",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "alloc_iommu_table",
+      "lines": 724,
+      "chars": 23079
+    },
+    {
+      "task_id": "OS__memory_manager__spec_impl__impl0__alloc_page_table",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "alloc_page_table",
+      "lines": 725,
+      "chars": 23077
+    },
+    {
+      "task_id": "OS__pagetable__pagemap__impl0__init",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "init",
+      "lines": 226,
+      "chars": 5163
+    },
+    {
+      "task_id": "OS__pagetable__pagetable_impl_base__impl0__map_4k_page",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "map_4k_page",
+      "lines": 1298,
+      "chars": 53372
+    },
+    {
+      "task_id": "OS__pagetable__pagetable_impl_base__impl0__remove_l2_entry",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_l2_entry",
+      "lines": 1303,
+      "chars": 53487
+    },
+    {
+      "task_id": "OS__process_manager__container_tree__container_tree_check_is_ancestor",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "container_tree_check_is_ancestor",
+      "lines": 393,
+      "chars": 15409
+    },
+    {
+      "task_id": "OS__process_manager__container_tree__new_container_preserve_tree_inv",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_container_preserve_tree_inv",
+      "lines": 637,
+      "chars": 27789
+    },
+    {
+      "task_id": "OS__process_manager__container_tree__new_container_preserve_tree_inv_2",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_container_preserve_tree_inv_2",
+      "lines": 465,
+      "chars": 19977
+    },
+    {
+      "task_id": "OS__process_manager__container_tree__new_container_preserve_tree_inv_4",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_container_preserve_tree_inv_4",
+      "lines": 465,
+      "chars": 19877
+    },
+    {
+      "task_id": "OS__process_manager__container_tree__new_container_preserve_tree_inv_5",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_container_preserve_tree_inv_5",
+      "lines": 465,
+      "chars": 19879
+    },
+    {
+      "task_id": "OS__process_manager__container_tree__new_container_preserve_tree_inv_7",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_container_preserve_tree_inv_7",
+      "lines": 465,
+      "chars": 19877
+    },
+    {
+      "task_id": "OS__process_manager__container_tree__remove_container_preserve_tree_inv",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_container_preserve_tree_inv",
+      "lines": 622,
+      "chars": 26056
+    },
+    {
+      "task_id": "OS__process_manager__container_tree__remove_container_preserve_tree_inv_2",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_container_preserve_tree_inv_2",
+      "lines": 584,
+      "chars": 23483
+    },
+    {
+      "task_id": "OS__process_manager__container_tree__remove_container_preserve_tree_inv_3",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_container_preserve_tree_inv_3",
+      "lines": 582,
+      "chars": 23485
+    },
+    {
+      "task_id": "OS__process_manager__container_tree__remove_container_preserve_tree_inv_6",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_container_preserve_tree_inv_6",
+      "lines": 586,
+      "chars": 23491
+    },
+    {
+      "task_id": "OS__process_manager__impl_base__impl0__block_running_thread_and_change_queue_state",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "block_running_thread_and_change_queue_state",
+      "lines": 1523,
+      "chars": 57032
+    },
+    {
+      "task_id": "OS__process_manager__impl_base__impl0__block_running_thread_and_change_queue_state_and_set_trap_frame",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "block_running_thread_and_change_queue_state_and_set_trap_frame",
+      "lines": 1609,
+      "chars": 60515
+    },
+    {
+      "task_id": "OS__process_manager__impl_base__impl0__block_running_thread_and_set_trap_frame",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "block_running_thread_and_set_trap_frame",
+      "lines": 1610,
+      "chars": 60646
+    },
+    {
+      "task_id": "OS__process_manager__impl_base__impl0__new_endpoint",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_endpoint",
+      "lines": 1595,
+      "chars": 62184
+    },
+    {
+      "task_id": "OS__process_manager__impl_base__impl0__pass_endpoint",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "pass_endpoint",
+      "lines": 1620,
+      "chars": 60987
+    },
+    {
+      "task_id": "OS__process_manager__impl_base__impl0__run_blocked_thread",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "run_blocked_thread",
+      "lines": 1654,
+      "chars": 61314
+    },
+    {
+      "task_id": "OS__process_manager__impl_base__impl0__schedule_blocked_thread",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "schedule_blocked_thread",
+      "lines": 1549,
+      "chars": 61000
+    },
+    {
+      "task_id": "OS__process_manager__impl_kill_proc__impl0__kill_process_none_root",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "kill_process_none_root",
+      "lines": 1744,
+      "chars": 69242
+    },
+    {
+      "task_id": "OS__process_manager__impl_kill_thread__impl0__kill_running_thread",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "kill_running_thread",
+      "lines": 1564,
+      "chars": 60092
+    },
+    {
+      "task_id": "OS__process_manager__impl_kill_thread__impl0__kill_scheduled_thread",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "kill_scheduled_thread",
+      "lines": 1570,
+      "chars": 61872
+    },
+    {
+      "task_id": "OS__process_manager__impl_new_container__impl0__new_container_with_endpoint",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_container_with_endpoint",
+      "lines": 2641,
+      "chars": 106920
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__new_proc_preserve_tree_inv",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_proc_preserve_tree_inv",
+      "lines": 662,
+      "chars": 27433
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__new_proc_preserve_tree_inv_4",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_proc_preserve_tree_inv_4",
+      "lines": 455,
+      "chars": 17983
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__new_proc_preserve_tree_inv_5",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_proc_preserve_tree_inv_5",
+      "lines": 455,
+      "chars": 17985
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__new_proc_preserve_tree_inv_7",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "new_proc_preserve_tree_inv_7",
+      "lines": 454,
+      "chars": 17982
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__proc_tree_check_is_ancestor",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "proc_tree_check_is_ancestor",
+      "lines": 386,
+      "chars": 14162
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__proc_tree_wf_imply_root_with_no_child_has_empty_dom",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "proc_tree_wf_imply_root_with_no_child_has_empty_dom",
+      "lines": 359,
+      "chars": 13099
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__remove_proc_preserve_tree_inv",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_proc_preserve_tree_inv",
+      "lines": 442,
+      "chars": 18182
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__remove_proc_preserve_tree_inv_2",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_proc_preserve_tree_inv_2",
+      "lines": 424,
+      "chars": 16058
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__remove_proc_preserve_tree_inv_5",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_proc_preserve_tree_inv_5",
+      "lines": 425,
+      "chars": 16057
+    },
+    {
+      "task_id": "OS__process_manager__process_tree__remove_proc_preserve_tree_inv_7",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_proc_preserve_tree_inv_7",
+      "lines": 425,
+      "chars": 16069
+    },
+    {
+      "task_id": "OS__process_manager__spec_proof__impl2__proc_tree_root_inv",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "proc_tree_root_inv",
+      "lines": 1338,
+      "chars": 55415
+    },
+    {
+      "task_id": "OS__slinkedlist__spec_impl_u__impl2__pop",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "pop",
+      "lines": 392,
+      "chars": 13101
+    },
+    {
+      "task_id": "OS__slinkedlist__spec_impl_u__impl2__push",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "push",
+      "lines": 420,
+      "chars": 14497
+    },
+    {
+      "task_id": "OS__slinkedlist__spec_impl_u__impl2__remove_helper1",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_helper1",
+      "lines": 348,
+      "chars": 11447
+    },
+    {
+      "task_id": "OS__slinkedlist__spec_impl_u__impl2__remove_helper2",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_helper2",
+      "lines": 360,
+      "chars": 11795
+    },
+    {
+      "task_id": "OS__slinkedlist__spec_impl_u__impl2__remove_helper3",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_helper3",
+      "lines": 362,
+      "chars": 11905
+    },
+    {
+      "task_id": "OS__slinkedlist__spec_impl_u__impl2__remove_helper5",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_helper5",
+      "lines": 361,
+      "chars": 11939
+    },
+    {
+      "task_id": "OS__slinkedlist__spec_impl_u__impl2__remove_helper6",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_helper6",
+      "lines": 361,
+      "chars": 11940
+    },
+    {
+      "task_id": "OS__slinkedlist__spec_impl_u__impl2__remove_helper7",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "remove_helper7",
+      "lines": 376,
+      "chars": 12357
+    },
+    {
+      "task_id": "OS__va_range__impl2_new",
+      "project": "OS",
+      "project_name": "ATMO",
+      "target_function": "impl2_new",
+      "lines": 123,
+      "chars": 3106
+    },
+    {
+      "task_id": "VE__regular__repetition__impl2__lemma_prefix_secure_helper",
+      "project": "VE",
+      "project_name": "Vest",
+      "target_function": "lemma_prefix_secure_helper",
+      "lines": 227,
+      "chars": 7734
+    },
+    {
+      "task_id": "VE__regular__repetition__impl2__theorem_parse_serialize_roundtrip_helper",
+      "project": "VE",
+      "project_name": "Vest",
+      "target_function": "theorem_parse_serialize_roundtrip_helper",
+      "lines": 243,
+      "chars": 8239
+    },
+    {
+      "task_id": "VE__regular__repetition__impl2__theorem_serialize_parse_roundtrip_helper",
+      "project": "VE",
+      "project_name": "Vest",
+      "target_function": "theorem_serialize_parse_roundtrip_helper",
+      "lines": 239,
+      "chars": 8226
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "lemma-zero",
+  "description": "Math-first formal proof synthesis plugin for Verus Rust systems without human helper lemmas.",
+  "owner": { "name": "Quan Duong" },
+  "plugins": [
+    {
+      "name": "lemma-zero",
+      "source": "./",
+      "description": "Math-first formal proof synthesis plugin for Verus Rust systems without human helper lemmas. Pairs a portable agent skill with a zero-dependency local verifier engine (spec slicer, structured Verus/Z3 error parser, bottom-up single-lemma verifier, strict anti-cheat gate, and exact cost ledger)."
+    }
+  ]
+}

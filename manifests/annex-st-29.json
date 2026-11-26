@@ -1,0 +1,243 @@
+{
+  "split": "annex_requires_deps",
+  "seed": 20261126,
+  "source_sha256": "dd3b18cb90a20e6b80bcf47cd88d439ed0309a952ff1fd4090148cf98cdae878",
+  "count": 29,
+  "by_project": {
+    "ST": 29
+  },
+  "tasks": [
+    {
+      "task_id": "ST__append_L_tentatively_append_wrapping",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "append_L_tentatively_append_wrapping",
+      "lines": 225,
+      "chars": 7929
+    },
+    {
+      "task_id": "ST__inv_L_active_metadata_set_after_crash",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "inv_L_active_metadata_set_after_crash",
+      "lines": 515,
+      "chars": 14389
+    },
+    {
+      "task_id": "ST__inv_L_active_metadata_types_equal_implies_metadata_types_set",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "inv_L_active_metadata_types_equal_implies_metadata_types_set",
+      "lines": 396,
+      "chars": 10742
+    },
+    {
+      "task_id": "ST__inv_L_flushing_metadata_maintains_invariants",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "inv_L_flushing_metadata_maintains_invariants",
+      "lines": 678,
+      "chars": 20122
+    },
+    {
+      "task_id": "ST__inv_L_header_bytes_equal_implies_active_metadata_bytes_equal",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "inv_L_header_bytes_equal_implies_active_metadata_bytes_equal",
+      "lines": 288,
+      "chars": 6917
+    },
+    {
+      "task_id": "ST__inv_L_if_view_differs_only_in_log_area_parts_not_accessed_by_recovery_then_recover_state_matches",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "inv_L_if_view_differs_only_in_log_area_parts_not_accessed_by_recovery_then_recover_state_matches",
+      "lines": 782,
+      "chars": 22677
+    },
+    {
+      "task_id": "ST__inv_L_invariant_imply_crash_recover_for_one_log",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "inv_L_invariant_imply_crash_recover_for_one_log",
+      "lines": 650,
+      "chars": 18452
+    },
+    {
+      "task_id": "ST__inv_L_invariants_imply_crash_recover",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "inv_L_invariants_imply_crash_recover",
+      "lines": 778,
+      "chars": 23441
+    },
+    {
+      "task_id": "ST__inv_L_metadata_types_set_after_cdb_update",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "inv_L_metadata_types_set_after_cdb_update",
+      "lines": 448,
+      "chars": 12766
+    },
+    {
+      "task_id": "ST__inv_L_updating_inactive_crc_maintains_invariants",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "inv_L_updating_inactive_crc_maintains_invariants",
+      "lines": 699,
+      "chars": 20878
+    },
+    {
+      "task_id": "ST__inv_L_updating_inactive_metadata_maintains_invariants",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "inv_L_updating_inactive_metadata_maintains_invariants",
+      "lines": 691,
+      "chars": 20596
+    },
+    {
+      "task_id": "ST__layout_L_if_no_outstanding_writes_then_can_only_crash_as_state",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "layout_L_if_no_outstanding_writes_then_can_only_crash_as_state",
+      "lines": 585,
+      "chars": 15798
+    },
+    {
+      "task_id": "ST__layout_L_if_only_differences_in_memory_are_inactive_metadata_then_recover_state_matches",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "layout_L_if_only_differences_in_memory_are_inactive_metadata_then_recover_state_matches",
+      "lines": 620,
+      "chars": 18147
+    },
+    {
+      "task_id": "ST__logimpl_L_read_of_continuous_range",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "logimpl_L_read_of_continuous_range",
+      "lines": 550,
+      "chars": 15074
+    },
+    {
+      "task_id": "ST__logimpl_advance_head",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "logimpl_advance_head",
+      "lines": 1010,
+      "chars": 32334
+    },
+    {
+      "task_id": "ST__logimpl_read",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "logimpl_read",
+      "lines": 1054,
+      "chars": 33124
+    },
+    {
+      "task_id": "ST__logimpl_setup",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "logimpl_setup",
+      "lines": 812,
+      "chars": 24005
+    },
+    {
+      "task_id": "ST__logimpl_start",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "logimpl_start",
+      "lines": 1049,
+      "chars": 32503
+    },
+    {
+      "task_id": "ST__logimpl_tentatively_append",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "logimpl_tentatively_append",
+      "lines": 1260,
+      "chars": 40918
+    },
+    {
+      "task_id": "ST__logimpl_tentatively_append_to_log",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "logimpl_tentatively_append_to_log",
+      "lines": 396,
+      "chars": 13854
+    },
+    {
+      "task_id": "ST__logimpl_update_log_metadata",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "logimpl_update_log_metadata",
+      "lines": 1260,
+      "chars": 41095
+    },
+    {
+      "task_id": "ST__pmemutil_L_auto_if_no_outstanding_writes_then_flush_is_idempotent",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "pmemutil_L_auto_if_no_outstanding_writes_then_flush_is_idempotent",
+      "lines": 79,
+      "chars": 2031
+    },
+    {
+      "task_id": "ST__pmemutil_L_if_no_outstanding_writes_then_flush_is_idempotent",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "pmemutil_L_if_no_outstanding_writes_then_flush_is_idempotent",
+      "lines": 83,
+      "chars": 2086
+    },
+    {
+      "task_id": "ST__pmemutil_L_ifnooutstandingwritesthenpersistentmemoryregionsviewcanonlycrashascommitted",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "pmemutil_L_ifnooutstandingwritesthenpersistentmemoryregionsviewcanonlycrashascommitted",
+      "lines": 119,
+      "chars": 3381
+    },
+    {
+      "task_id": "ST__pmemutil_L_ifnooutstandingwritesthenpersistentmemoryviewcanonlycrashascommitted",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "pmemutil_L_ifnooutstandingwritesthenpersistentmemoryviewcanonlycrashascommitted",
+      "lines": 92,
+      "chars": 2537
+    },
+    {
+      "task_id": "ST__pmemutil_L_single_write_crash_effect_on_pm_region_view",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "pmemutil_L_single_write_crash_effect_on_pm_region_view",
+      "lines": 130,
+      "chars": 3898
+    },
+    {
+      "task_id": "ST__pmemutil_L_single_write_crash_effect_on_pm_regions_view",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "pmemutil_L_single_write_crash_effect_on_pm_regions_view",
+      "lines": 177,
+      "chars": 5444
+    },
+    {
+      "task_id": "ST__pmemutil_L_wherevernooutstandingwritespersistentmemoryviewcanonlycrashascommitted",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "pmemutil_L_wherevernooutstandingwritespersistentmemoryviewcanonlycrashascommitted",
+      "lines": 87,
+      "chars": 2350
+    },
+    {
+      "task_id": "ST__subregion_new_with_condition",
+      "project": "ST",
+      "project_name": "Storage",
+      "target_function": "subregion_new_with_condition",
+      "lines": 318,
+      "chars": 10194
+    }
+  ]
+}
