@@ -1,0 +1,50 @@
+{
+  "schema_version": "0.1.0",
+  "project": "lemma-zero",
+  "safety": {
+    "budget_cap_usd": 0.0,
+    "per_task_budget_cap_usd": 0.0,
+    "min_free_disk_gb": 20.0,
+    "require_anticheat_pass": true
+  },
+  "verus": {
+    "binary": "verus",
+    "pinned_benchmark_commit": "ddc66116aa7a844a9e19cc50922fe85c84b8b4a5",
+    "default_args": ["--crate-type=lib", "--expand-errors"],
+    "rlimit": 30,
+    "timeout_seconds": 60
+  },
+  "pipeline": {
+    "max_lemma_plan_rounds": 3,
+    "max_repair_attempts": 12,
+    "parallel_workers": 4
+  },
+  "model_routing": {
+    "syntax_repair_tier": "cheap_fast",
+    "trigger_hint_tier": "mid_balanced",
+    "lemma_planner_tier": "frontier_reasoning"
+  },
+  "pricing_usd_per_million_tokens": {
+    "cheap_fast": {
+      "input": 0.25,
+      "cache_write": 0.3125,
+      "cache_read": 0.025,
+      "output": 1.25,
+      "thinking": 1.25
+    },
+    "mid_balanced": {
+      "input": 3.0,
+      "cache_write": 3.75,
+      "cache_read": 0.3,
+      "output": 15.0,
+      "thinking": 15.0
+    },
+    "frontier_reasoning": {
+      "input": 5.0,
+      "cache_write": 6.25,
+      "cache_read": 0.25,
+      "output": 25.0,
+      "thinking": 25.0
+    }
+  }
+}
