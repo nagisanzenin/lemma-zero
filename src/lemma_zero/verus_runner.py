@@ -2,14 +2,22 @@
 
 from __future__ import annotations
 
+import contextlib
+import hashlib
 import os
 import re
 import shutil
 import subprocess
+import tempfile
 import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterator
+
+try:
+    import fcntl
+except ImportError:  # pragma: no cover - Windows fallback
+    fcntl = None  # type: ignore[assignment]
 
 _SUMMARY_RE = re.compile(r"verification results::\s*(\d+)\s+verified,\s*(\d+)\s+errors?")
 _ERROR_HEADER_RE = re.compile(r"^error(?:\[(E\d+)\])?:\s*(.+)$")
@@ -233,6 +241,53 @@ def parse_verus_errors(stderr: str, max_errors: int = 8) -> list[VerusError]:
     return errors
 
 
+@contextlib.contextmanager
+def _verus_slot_lock() -> Iterator[None]:
+    """Bound concurrent local Verus/Z3 processes (default 6 via LEMMA_ZERO_MAX_VERUS) so high-worker LLM fan-outs never thrash CPU."""
+    max_slots = int(os.environ.get("LEMMA_ZERO_MAX_VERUS", "6") or "6")
+    if fcntl is None or max_slots <= 0:
+        yield
+        return
+    slot_dir = Path(tempfile.gettempdir()) / "lemma_zero_verus_slots"
+    try:
+        slot_dir.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        yield
+        return
+    # Round-robin start index by pid hash to spread contention cleanly across slots.
+    start = int(hashlib.md5(str(os.getpid()).encode()).hexdigest(), 16) % max_slots
+    acquired_fh = None
+    try:
+        # Fast non-blocking scan across all slots first.
+        for offset in range(max_slots):
+            slot_path = slot_dir / f"slot_{(start + offset) % max_slots}.lock"
+            try:
+                fh = slot_path.open("a+")
+                fcntl.flock(fh.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                acquired_fh = fh
+                break
+            except BlockingIOError:
+                fh.close()
+            except OSError:
+                break
+        # If all slots are busy, block cleanly on our hashed slot.
+        if acquired_fh is None:
+            slot_path = slot_dir / f"slot_{start}.lock"
+            try:
+                fh = slot_path.open("a+")
+                fcntl.flock(fh.fileno(), fcntl.LOCK_EX)
+                acquired_fh = fh
+            except OSError:
+                acquired_fh = None
+        yield
+    finally:
+        if acquired_fh is not None:
+            try:
+                fcntl.flock(acquired_fh.fileno(), fcntl.LOCK_UN)
+            finally:
+                acquired_fh.close()
+
+
 def run_verus(
     file_path: Path | str,
     *,
@@ -266,24 +321,25 @@ def run_verus(
             cmd.append("--verify-root")
     cmd.append(str(target))
 
-    t0 = time.monotonic()
-    try:
-        proc = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=timeout_seconds,
-            check=False,
-        )
-        wall = round(time.monotonic() - t0, 3)
-        timed_out = False
-        stdout, stderr, rc = proc.stdout, proc.stderr, proc.returncode
-    except subprocess.TimeoutExpired as exc:
-        wall = round(time.monotonic() - t0, 3)
-        timed_out = True
-        stdout = (exc.stdout.decode("utf-8", "replace") if isinstance(exc.stdout, bytes) else (exc.stdout or ""))
-        stderr = (exc.stderr.decode("utf-8", "replace") if isinstance(exc.stderr, bytes) else (exc.stderr or ""))
-        rc = 124
+    with _verus_slot_lock():
+        t0 = time.monotonic()
+        try:
+            proc = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=timeout_seconds,
+                check=False,
+            )
+            wall = round(time.monotonic() - t0, 3)
+            timed_out = False
+            stdout, stderr, rc = proc.stdout, proc.stderr, proc.returncode
+        except subprocess.TimeoutExpired as exc:
+            wall = round(time.monotonic() - t0, 3)
+            timed_out = True
+            stdout = (exc.stdout.decode("utf-8", "replace") if isinstance(exc.stdout, bytes) else (exc.stdout or ""))
+            stderr = (exc.stderr.decode("utf-8", "replace") if isinstance(exc.stderr, bytes) else (exc.stderr or ""))
+            rc = 124
 
     verified_count = 0
     error_count = 0

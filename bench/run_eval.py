@@ -782,40 +782,58 @@ def main() -> int:
     )
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
-        futures: dict[concurrent.futures.Future[TaskRecord], str] = {}
-        for row in pending:
-            try:
-                ledger.check_budget(0.0)
-            except BudgetExceededError as exc:
-                print(f"BUDGET CAP REACHED: {exc}", file=sys.stderr)
-                break
-            fut = pool.submit(
-                run_single_task,
-                row,
-                mode=args.mode,
-                agent=args.agent,
-                agent_bin=agent_bin,
-                model=args.model,
-                verus_bin=verus_bin,
-                task_timeout_sec=args.task_timeout_sec,
-                verus_rlimit=args.verus_rlimit,
-                max_turns=args.max_turns,
-                artifacts_dir=artifacts_dir,
-                pricing_table=pricing,
-                pricing_tier=args.pricing_tier,
-                thinking=args.thinking,
-            )
-            futures[fut] = row["task_id"]
+        in_flight: dict[concurrent.futures.Future[TaskRecord], str] = {}
+        queue_iter = iter(pending)
+        cap_reached = False
 
-        for fut in concurrent.futures.as_completed(futures):
-            rec = fut.result()
-            ledger.record_task(rec)
-            print(
-                f"[{rec.status:14s}] {rec.project} {rec.task_id[:45]:45s} "
-                f"turns={rec.calls:2d} in={rec.input_tokens:7d} out={rec.output_tokens:5d} "
-                f"${rec.total_cost_usd:.3f} {rec.wall_seconds:5.1f}s (spent ${ledger.spent_usd:.2f}/${args.budget_cap_usd:.2f})",
-                flush=True,
+        def _submit_up_to_workers() -> None:
+            nonlocal cap_reached
+            while len(in_flight) < args.workers and not cap_reached:
+                try:
+                    ledger.check_budget(0.0)
+                except BudgetExceededError as exc:
+                    print(f"BUDGET CAP REACHED: {exc}", file=sys.stderr)
+                    cap_reached = True
+                    break
+                try:
+                    row = next(queue_iter)
+                except StopIteration:
+                    break
+                fut = pool.submit(
+                    run_single_task,
+                    row,
+                    mode=args.mode,
+                    agent=args.agent,
+                    agent_bin=agent_bin,
+                    model=args.model,
+                    verus_bin=verus_bin,
+                    task_timeout_sec=args.task_timeout_sec,
+                    verus_rlimit=args.verus_rlimit,
+                    max_turns=args.max_turns,
+                    artifacts_dir=artifacts_dir,
+                    pricing_table=pricing,
+                    pricing_tier=args.pricing_tier,
+                    thinking=args.thinking,
+                )
+                in_flight[fut] = row["task_id"]
+
+        _submit_up_to_workers()
+        while in_flight:
+            done, _ = concurrent.futures.wait(
+                in_flight.keys(),
+                return_when=concurrent.futures.FIRST_COMPLETED,
             )
+            for fut in done:
+                in_flight.pop(fut)
+                rec = fut.result()
+                ledger.record_task(rec)
+                print(
+                    f"[{rec.status:14s}] {rec.project} {rec.task_id[:45]:45s} "
+                    f"turns={rec.calls:2d} in={rec.input_tokens:7d} out={rec.output_tokens:5d} "
+                    f"${rec.total_cost_usd:.3f} {rec.wall_seconds:5.1f}s (spent ${ledger.spent_usd:.2f}/${args.budget_cap_usd:.2f})",
+                    flush=True,
+                )
+            _submit_up_to_workers()
 
     summary = summarize_ledger(ExperimentLedger.load_records(args.out))
     print("\n=== FINAL SUMMARY ===", flush=True)
